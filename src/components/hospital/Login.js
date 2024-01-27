@@ -4,35 +4,28 @@ import Form from 'react-bootstrap/Form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { login } from "../api/hospitalAuth.js";
+import { login } from '../api/hospitalAuth.js'
 // import { useRouter } from "next/navigation";
 
 export default function Login() {
-
   // const router = useRouter();
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
     password: Yup.string().required('Required'),
   })
 
-  
+  const onSubmit = async (values) => {
+    localStorage.clear()
+    const response = await login(values.email, values.password)
 
-    const onSubmit= async (values) => {
+    localStorage.setItem('token', response.token)
 
-      localStorage.clear()
-      const response = await login(values.email, values.password);
-
-      localStorage.setItem("token", response.token);
-      
-      if(response.token){
-        navigate('/hospital');
-      }
-      
-    
+    if (response.token) {
+      navigate('/hospital')
     }
-  
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -42,13 +35,12 @@ export default function Login() {
     onSubmit,
     validationSchema,
   })
-  // console.log('Form values', formik.values)
+
   return (
     <div>
       <div
         className="bg-dark mt-5 d-flex justify-content-center m-auto boarder rounded-circle fs-4 py-3 px-2 align-item-center text-light "
-        style={{ width: 70, height: 70 }}
-      >
+        style={{ width: 70, height: 70 }}>
         EHL
       </div>
       <div className="d-flex  algin-item-center justify-content-center">
@@ -82,7 +74,7 @@ export default function Login() {
                 value={formik.values.password}
                 placeholder="Password"
               />
-               {formik.touched.password && formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>

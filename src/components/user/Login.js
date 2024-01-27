@@ -23,7 +23,7 @@ export default function UserLogin() {
     
     if(response.token)
 
-    navigate('/hospitalhome');
+    navigate('#');
   
   }
 
@@ -79,14 +79,18 @@ export default function UserLogin() {
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>
-            <p>Forget Password?</p>
+            <p><Link to="/doctor/auth/forgotpass" style={{ color: 'red', textDecoration:'none' }}>
+                <strong className='text-decoration-none fw-normal' >
+                  Forget Password?
+                </strong>
+              </Link></p>
 
             <Button variant="primary" type="submit" className="w-100 fw-bold">
               Login
             </Button>
             <p>
               Don't have an account?{' '}
-              <Link to="/UserRegistration">
+              <Link to="/user/auth/registration">
                 <strong>
                   <u>Register</u>
                 </strong>

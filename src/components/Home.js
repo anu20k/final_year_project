@@ -23,7 +23,7 @@ export default function Home() {
       <div className="row mt-5 mx-0 ">
         
         <div className="col-12 col-lg-4  text-center h1 fs-1">
-        <Link to="/" style={{ textDecoration: 'none',color:"black" }}>
+        <Link to="/user/auth/login" style={{ textDecoration: 'none',color:"black" }}>
           <FaUser size={100} className='border  rounded-circle p-2  '/>
           <p>User</p>
           </Link>
@@ -41,7 +41,7 @@ export default function Home() {
          
          
          <div className="col-12 col-lg-4 text-center h1 fs-1 ">
-         <Link to="/" style={{ textDecoration: 'none',color:"black" }}>
+         <Link to="/doctor/auth/login" style={{ textDecoration: 'none',color:"black" }}>
           <FaUserDoctor size={100}className='border  rounded-circle p-2 '/>
           <p>Doctor</p>
           </Link>

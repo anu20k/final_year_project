@@ -1,16 +1,18 @@
-
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-
-import { login } from "../api/doctorAuth";
+import Hospitalhome from './Hospitalhome'
+import { login } from "./api/hospitalAuth";
+// import { useRouter } from "next/navigation";
 
 export default function Login() {
 
-    const navigate = useNavigate();
+  // const router = useRouter();
+
+  const navigate = useNavigate();
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
     password: Yup.string().required('Required'),
@@ -26,7 +28,7 @@ export default function Login() {
       localStorage.setItem("token", response.token);
       
       if(response.token)
-      navigate('#');
+      navigate('/hospitalhome');
     
     }
   
@@ -39,10 +41,9 @@ export default function Login() {
     onSubmit,
     validationSchema,
   })
-
+  // console.log('Form values', formik.values)
   return (
     <div>
-       <div>
       <div
         className="bg-dark mt-5 d-flex justify-content-center m-auto boarder rounded-circle fs-4 py-3 px-2 align-item-center text-light "
         style={{ width: 70, height: 70 }}
@@ -50,13 +51,13 @@ export default function Login() {
         EHL
       </div>
       <div className="d-flex  algin-item-center justify-content-center">
-        <h2>Doctor Login</h2>
+        <h2>Hospital Login</h2>
       </div>
       <div className="d-flex  algin-item-center justify-content-center  bg-body">
         <div className="w-lg-25 p-lg-5 border rounded-3 mt-lg-5 shadow p-lg-3 mb-5  rounded">
           <Form className="" onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label className="fw-bold"> Doctor Email*</Form.Label>
+              <Form.Label className="fw-bold"> Hospital Email*</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -84,8 +85,8 @@ export default function Login() {
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>
-            <p><Link to="/doctor/auth/forgotpass" style={{ color: 'red', textDecoration:'none' }}>
-                <strong className='text-decoration-none fw-normal' >
+            <p><Link to="/hospitalForgetpassword">
+                <strong className='text-decoration-none fw-normal' style={{ color: 'red' }}>
                   Forget Password?
                 </strong>
               </Link></p>
@@ -95,7 +96,7 @@ export default function Login() {
             </Button>
             <p>
               Don't have an account?{' '}
-              <Link to="/doctor/auth/registration">
+              <Link to="/HospitalRegistration">
                 <strong>
                   <u>Register</u>
                 </strong>
@@ -104,7 +105,6 @@ export default function Login() {
           </Form>
         </div>
       </div>
-    </div>
     </div>
   )
 }

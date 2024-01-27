@@ -58,7 +58,7 @@ export default function UserRegistration() {
         EHL
       </div>
       <div className=" text-center">
-        <h2>Use Registration</h2>
+        <h2>User Registration</h2>
       </div>
       <div className="d-flex px-lg-5 mx-lg-5 algin-item-center justify-content-center  bg-body">
         <div className="w-lg-75 p-lg-5 rounded-3 mt-5 shadow p-3 mb-5  rounded">
@@ -370,7 +370,7 @@ export default function UserRegistration() {
             </div>
             <p className="text-center">
               All ready have an account?{' '}
-              <Link to='/'>
+              <Link to='/user/auth/login'>
                 <strong>
                   <u> Login</u>
                 </strong>
