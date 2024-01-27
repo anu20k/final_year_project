@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Webcam from 'react-webcam'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { checkFace } from "./api/faceapi";
+import { checkFace } from "../api/faceapi";
 
 const WebcamComponent = () => <Webcam />
 

@@ -6,8 +6,7 @@ import Row from 'react-bootstrap/Row'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { Link } from 'react-router-dom'
-import { loggedUser } from './api/userAuth'
-import {register} from './api/hospitalAuth'
+import {register} from '../api/hospitalAuth'
 import { useNavigate } from 'react-router-dom'
 
 export default function HospitalRegistration() {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import { login } from "./api/userAuth";
+import { login } from "../api/userAuth";
 
 export default function UserLogin() {
   const navigate = useNavigate();

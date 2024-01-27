@@ -5,10 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { useNavigate } from 'react-router-dom'
-import Fetchpage from './Fetchpage'
 import { BiLogOut } from 'react-icons/bi'
 import DataTable, { createTheme } from 'react-data-table-component'
-import { loggedHospital } from './api/hospitalAuth'
+import { loggedHospital } from '../api/hospitalAuth.js'
 import {useState,useEffect} from 'react'
 
 export default function Hospitalhome() {
@@ -16,7 +15,7 @@ export default function Hospitalhome() {
   const [loading, setLoading] = useState(true);
 
   const handleonClick = () => {
-    navigate('/fetchpage')
+    navigate('/hospital/fetchPatientEmergencyRecord')
   }
 
   const onclicklogout = () => {
@@ -29,7 +28,7 @@ export default function Hospitalhome() {
   const resSeat = async () => {
     const response = await loggedHospital();
     console.log(response.status);
-    if (response.status !== "success") {
+    if (response.status != "success") {
       localStorage.clear();
       navigate('/hospital/auth/login')
     } else {

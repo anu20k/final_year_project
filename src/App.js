@@ -1,20 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import HospitalRegistration from './components/HospitalRegistration';
-import HospitalLogin from './components/HospitalLogin';
-import HospitalHome from './components/HospitalHome.js';
-import Userlogin from './components/Userlogin';
-import UserRegistration from './components/UserRegistration';
 import { BrowserRouter as Router,Routes, Route} from 'react-router-dom'
-import Fetchpage from './components/Fetchpage';
-import Fetchbyface from './components/Fetchbyface';
-import Patientinfo from './components/Patientinfo'
-import Webcam1 from './components/Webcam1'
+
 import Home from './components/Home' 
-import DoctorHome from './components/DoctorHome.js'
-import UserHome from './components/UserHome.js'
+import HospitalHome from './components/hospital/Home.js';
+import HospitalLogin from './components/hospital/Login';
+import HospitalRegistration from './components/hospital/Registration';
+import FetchPatientEmergencyRecord from './components/hospital/FetchPatientEmergencyRecord.js';
+import FetchByFace from './components/hospital/FetchByFace.js';
+import Patientinfo from './components/hospital/Patientinfo'
+import Webcam1 from './components/hospital/FetchByFace.js'
+
+import UserHome from './components/user/Home.js'
+import UserLogin from './components/user/Login';
+import UserRegistration from './components/user/Registration';
+
+import DoctorHome from './components/doctor/Home.js'
+import DoctorLogin from './components/doctor/Login';
+import DoctorRegistration from './components/doctor/Registration';
+
 
 function App() {
   return (
@@ -25,12 +30,16 @@ function App() {
         <Route path="/hospital" element={<HospitalHome/>}></Route>
         <Route path="/hospital/auth/login" element={<HospitalLogin/>}></Route> 
         <Route path="/hospital/auth/registration" element={<HospitalRegistration/>}></Route>
-        <Route path="/hospital/fetchpage" element={<Fetchpage/>}></Route>
-        <Route path="/hospital/fetch_byface" element={<Fetchbyface/>}></Route>
-        <Route path="/hospital/webcam" element={<Webcam1/>}></Route>
+        <Route path="/hospital/fetchPatientEmergencyRecord" element={<FetchPatientEmergencyRecord/>}></Route>
+        <Route path="/hospital/fetchPatientEmergencyRecord/face" element={<FetchByFace/>}></Route>
+      
         <Route path="/hospital/patientinfo" element={<Patientinfo/>}></Route>
         <Route path="/user" element={<UserHome/>}></Route>
+        <Route path="/user/auth/login" element={<UserLogin/>}></Route> 
+        <Route path="/user/auth/registration" element={<UserRegistration/>}></Route>
         <Route path="/doctor" element={<DoctorHome/>}></Route>
+        <Route path="/doctor/auth/login" element={<DoctorLogin/>}></Route> 
+        <Route path="/doctor/auth/registration" element={<DoctorRegistration/>}></Route>
       </Routes>
       </Router>
       

@@ -4,13 +4,14 @@ import { CiFaceSmile } from "react-icons/ci";
 import { BsFillEyeFill } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-export default function Fetchpage() {
+
+export default function FetchPatientEmergencyRecord() {
   const navigate = useNavigate()
   const fingeronclick =() =>{
        navigate('/patientinfo')
   }
   const faceonclick =() =>{
-    navigate('/fetch_byface')
+    navigate('/hospital/fetchPatientEmergencyRecord/face')
 }
 
   

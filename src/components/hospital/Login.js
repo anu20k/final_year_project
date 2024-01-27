@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { login } from "./api/hospitalAuth";
+import { login } from "../api/hospitalAuth.js";
 // import { useRouter } from "next/navigation";
 
 export default function Login() {
