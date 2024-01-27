@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { checkFace } from "../api/faceapi";
 
-const WebcamComponent = () => <Webcam />
-
 
 
 const videoConstraints = {
@@ -13,18 +11,39 @@ const videoConstraints = {
   height: 400,
   facingMode: 'user',
 }
-const Webcam1 = () => {
+const FetchByFace = () => {
   const navigate = useNavigate()
   const [picture, setPicture] = useState('')
   const webcamRef = React.useRef(null)
  
-  const capture = React.useCallback(() => {
+  const capture = React.useCallback(async() => {
     
     const pictureSrc = webcamRef.current.getScreenshot()
-    console.log(pictureSrc)
     setPicture(pictureSrc)
+
+    const dataUriParts = pictureSrc.split(',');
+    const mimeType = dataUriParts[0].match(/:(.*?);/)[1];
+    const byteString = atob(dataUriParts[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
     
-    const body = checkFace(pictureSrc)
+    for (let i = 0; i < byteString.length; i++) {
+      uint8Array[i] = byteString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([uint8Array], { type: mimeType });
+    
+    // Create a File object (optional)
+    const fileName = 'screenshot.jpg';  // Specify the desired file name
+    const file = new File([blob], fileName, { type: mimeType });
+    
+
+    
+    // Set the Blob or File object in the FormData
+    const formData = new FormData();
+    formData.append('File1', file || blob);
+
+    const body = await checkFace(formData);
     console.log(body)
   })
   return (
@@ -73,4 +92,4 @@ const Webcam1 = () => {
     </div>
   )
 }
-export default Webcam1;
+export default FetchByFace;

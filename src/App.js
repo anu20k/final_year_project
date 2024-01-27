@@ -10,8 +10,9 @@ import HospitalRegistration from './components/hospital/Registration';
 import HospitalForgotpass from './components/hospital/Forgotpass.js';
 import FetchPatientEmergencyRecord from './components/hospital/FetchPatientEmergencyRecord.js';
 import FetchByFace from './components/hospital/FetchByFace.js';
+import FetchByFingerprint from './components/hospital/FetchByFingerprint.js'
+import FetchByAadharId from './components/hospital/FetchByAadharId.js'
 import Patientinfo from './components/hospital/Patientinfo'
-import Webcam1 from './components/hospital/FetchByFace.js'
 
 import UserHome from './components/user/Home.js'
 import UserLogin from './components/user/Login';
@@ -35,7 +36,8 @@ function App() {
         <Route path="/hospital/auth/forgotpass" element={<HospitalForgotpass />}></Route>
         <Route path="/hospital/fetchPatientEmergencyRecord" element={<FetchPatientEmergencyRecord/>}></Route>
         <Route path="/hospital/fetchPatientEmergencyRecord/face" element={<FetchByFace/>}></Route>
-
+        <Route path="/hospital/fetchPatientEmergencyRecord/fingerprint" element={<FetchByFingerprint/>}></Route>
+        <Route path="/hospital/fetchPatientEmergencyRecord/aadharId" element={<FetchByAadharId/>}></Route>
       
         <Route path="/hospital/patientinfo" element={<Patientinfo/>}></Route>
         <Route path="/user" element={<UserHome/>}></Route>
