@@ -8,9 +8,13 @@ import { useNavigate } from 'react-router-dom'
 import Fetchpage from './Fetchpage'
 import { BiLogOut } from 'react-icons/bi'
 import DataTable, { createTheme } from 'react-data-table-component'
+import { loggedHospital } from './api/hospitalAuth'
+import {useState,useEffect} from 'react'
 
 export default function Hospitalhome() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+
   const handleonClick = () => {
     navigate('/fetchpage')
   }
@@ -20,11 +24,29 @@ export default function Hospitalhome() {
   }
 
   const [indata, setindata] = React.useState([])
-  React.useEffect(function () {
-    fetch('http://localhost:3000/Hospital_info')
-      .then((res) => res.json())
-      .then((data) => setindata(data))
-  }, [])
+  
+
+  const resSeat = async () => {
+    const response = await loggedHospital();
+    console.log(response.status);
+    if (response.status !== "success") {
+      localStorage.clear();
+      navigate('/hospital/auth/login')
+    } else {
+      localStorage.setItem("hospital", JSON.stringify(response.hospital));
+
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      resSeat();
+    } else {
+      localStorage.clear();
+      navigate('/hospital/auth/login');
+    }
+  }, []);
 
   createTheme(
     'solarized',
@@ -54,6 +76,7 @@ export default function Hospitalhome() {
     },
     'light',
   )
+
   const customStyles = {
     // rows: {
     //   style: {
@@ -79,8 +102,6 @@ export default function Hospitalhome() {
       },
     },
   };
-
-
 
   const colums = [
     {
@@ -110,75 +131,85 @@ export default function Hospitalhome() {
       },
   ]
 
-  
-
-  return (
-    <div>
-      <Navbar expand="lg" className="bg-dark text-white">
-        <Container fluid>
-          <Navbar.Brand
-            href="#"
-            className="text-dark ms-lg-5 bg-light border rounded-circle d-flex justify-content-center fs-4 pt-2 px-1 fw-bold align-item-center"
-            style={{ width: 60, height: 60 }}
-          >
-            EHL
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" className="" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="mx-auto my-2 my-lg-0 text-white fs-5 mx-3 "
-              style={{ maxHeight: '100px' }}
-              navbarScroll
-            >
-              <Nav.Link
-                href="#action1"
-                className="text-white mx-lg-3 text-decoration-underline"
-              >
-                Home
-              </Nav.Link>
-              <Nav.Link href="#action2" className="text-white mx-lg-3 ">
-                Hospital Profile
-              </Nav.Link>
-              <Nav.Link href="#" className="text-white mx-lg-3 ">
-                Doctor Info
-              </Nav.Link>
-            </Nav>
-            <Form className="d-flex me-5">
-               
-                <Button
-                variant="outline-dark"
-                className="bg-light me-lg-3 fs-5 fw-bold "
-                onClick={handleonClick}
-              >
-                Patient Record Fetch
-              </Button>
-                
-              
-              <Button
-                variant="outline-dark"
-                className="bg-light me-lg-3 fs-5 fw-bold"
-                onClick={onclicklogout}
-              >
-                <BiLogOut /> LogOut
-              </Button>
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
-      <div className="container mt-3">
-        <h3>Hospital Paitent Records</h3>
-        <DataTable
-          customStyles={customStyles}
-          columns={colums}
-         
-          data={indata}
-          fixedHeader
-          theme="solarized customStyles"
-          pagination
-        ></DataTable>
+  if (loading) {
+    return (
+      // <Flex justifyContent={"center"} alignItems={"center"} h="100vh" w="full">
+      //   <CircularProgress isIndeterminate color="green.500" />
+      // </Flex>
+      <div>
+        Loading
       </div>
-    </div>
-  )
+    );
+  } else {
+    return (
+      <div>
+        <Navbar expand="lg" className="bg-dark text-white">
+          <Container fluid>
+            <Navbar.Brand
+              href="#"
+              className="text-dark ms-lg-5 bg-light border rounded-circle d-flex justify-content-center fs-4 pt-2 px-1 fw-bold align-item-center"
+              style={{ width: 60, height: 60 }}
+            >
+              EHL
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="navbarScroll" className="" />
+            <Navbar.Collapse id="navbarScroll">
+              <Nav
+                className="mx-auto my-2 my-lg-0 text-white fs-5 mx-3 "
+                style={{ maxHeight: '100px' }}
+                navbarScroll
+              >
+                <Nav.Link
+                  href="#action1"
+                  className="text-white mx-lg-3 text-decoration-underline"
+                >
+                  Home
+                </Nav.Link>
+                <Nav.Link href="#action2" className="text-white mx-lg-3 ">
+                  Hospital Profile
+                </Nav.Link>
+                <Nav.Link href="#" className="text-white mx-lg-3 ">
+                  Doctor Info
+                </Nav.Link>
+              </Nav>
+              <Form className="d-flex me-5">
+                 
+                  <Button
+                  
+                  className="bg-light text-dark me-lg-3 fs-5 fw-bold "
+                  onClick={handleonClick}
+                >
+                  Patient Record Fetch
+                </Button>
+                  
+                
+                <Button
+                  className="bg-light text-dark me-lg-3 fs-5 fw-bold"
+                  onClick={onclicklogout}
+                >
+                  <BiLogOut /> LogOut
+                </Button>
+              </Form>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+  
+        <div className="container mt-3">
+          <h3>Hospital Paitent Records</h3>
+          <DataTable
+            customStyles={customStyles}
+            columns={colums}
+           
+            data={indata}
+            fixedHeader
+            theme="solarized customStyles"
+            pagination
+          ></DataTable>
+        </div>
+      </div>
+    )
+  }
+
+  
 }
 

@@ -73,19 +73,19 @@ const changePassword = async (password) => {
 
   return body
 }
-const loggedUser = async () => {
-  const url = api_url + 'user/loggeduser'
-  const jwt = 'Bearer ' + localStorage.getItem('token')
+const loggedHospital = async () => {
+  const url = api_url + "hospital/loggedhospital";
+  const jwt = "Bearer " + localStorage.getItem("token");
   const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', Authorization: jwt },
-  }
-  const response = await fetch(url, requestOptions)
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: jwt },
+  };
+  const response = await fetch(url, requestOptions);
 
-  const body = await response.json()
+  const body = await response.json();
 
-  return body
-}
+  return body;
+};
 const sentResetPasswordEmail = async (email) => {
   const url = api_url + 'user/sent-reset-password-email'
   const requestOptions = {
@@ -121,7 +121,7 @@ export {
   login,
   register,
   changePassword,
-  loggedUser,
+  loggedHospital,
   sentResetPasswordEmail,
   resetPassword,
 }

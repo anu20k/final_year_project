@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import Hospitalhome from './Hospitalhome'
 import { login } from "./api/hospitalAuth";
 // import { useRouter } from "next/navigation";
 
@@ -22,13 +21,15 @@ export default function Login() {
 
     const onSubmit= async (values) => {
 
-      localStorage.removeItem("token")
+      localStorage.clear()
       const response = await login(values.email, values.password);
 
       localStorage.setItem("token", response.token);
       
-      if(response.token)
-      navigate('/hospitalhome');
+      if(response.token){
+        navigate('/hospital');
+      }
+      
     
     }
   
