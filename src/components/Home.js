@@ -6,8 +6,8 @@ import {Link} from 'react-router-dom'
 
 export default function Home() {
   return (
-    <div>
-      <div>
+    <div >
+      <div >
         <div
           className="bg-dark fs-2 rounded-circle text-light mt-5 m-auto d-flex align-items-center justify-content-center "
           style={{ width: 120, height: 120 }}>
@@ -18,11 +18,11 @@ export default function Home() {
         </div>
       </div>
        
-       <div style={{ width: "100vw", height: "25vh" }} className='d-none d-sm-block'></div>
+       <div style={{ width: "100vw", height: "25vh" }} className='d-none d-lg-block'></div>
 
-      <div className="row mt-5">
+      <div className="row mt-5 mx-0 ">
         
-        <div className="col-12 col-sm-4 text-center h1 fs-1">
+        <div className="col-12 col-lg-4  text-center h1 fs-1">
         <Link to="/" style={{ textDecoration: 'none',color:"black" }}>
           <FaUser size={100} className='border  rounded-circle p-2  '/>
           <p>User</p>
@@ -31,7 +31,7 @@ export default function Home() {
         
          
          
-         <div className="col-12 col-sm-4 text-center  h1 fs-1 ">
+         <div className="col-12 col-lg-4 text-center  h1 fs-1 ">
          <Link to="/hospital" style={{ textDecoration: 'none', color:"black"}} >
           <FaHospitalAlt size={100}className=' p-2 ' />
           <p>Hospital</p>
@@ -40,7 +40,7 @@ export default function Home() {
          
          
          
-         <div className="col-12 col-sm-4 text-center h1 fs-1 ">
+         <div className="col-12 col-lg-4 text-center h1 fs-1 ">
          <Link to="/" style={{ textDecoration: 'none',color:"black" }}>
           <FaUserDoctor size={100}className='border  rounded-circle p-2 '/>
           <p>Doctor</p>
