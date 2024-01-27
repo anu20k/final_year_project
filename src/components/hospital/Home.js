@@ -132,12 +132,12 @@ export default function Hospitalhome() {
 
   if (loading) {
     return (
-      // <Flex justifyContent={"center"} alignItems={"center"} h="100vh" w="full">
-      //   <CircularProgress isIndeterminate color="green.500" />
-      // </Flex>
-      <div>
-        Loading
+      <div className='m-auto d-flex align-items-center justify-content-center ' style={{width:"100vw ",height:"100vh"}}>
+        <div className="spinner-border " style={{width: "4rem", height: "4rem"}} role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
+      
     );
   } else {
     return (

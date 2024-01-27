@@ -18,31 +18,28 @@ export default function FetchPatientEmergencyRecord() {
   return (
     <div>
       <div
-        className="bg-dark mt-5 d-flex justify-content-center m-auto boarder rounded-circle fs-4 py-3 px-2 align-item-center text-light "
+        className="bg-dark fs-2 rounded-circle text-light p-5 mt-5 m-auto d-flex align-items-center justify-content-center "
         style={{ width: 70, height: 70 }}
       >
         EHL
       </div>
-      <div className="d-flex  algin-item-center justify-content-center text-wrap" >
-        <h2 className="d-flex align-item-center" style={{width:200}}>Fetch Paitent Emergency Record</h2>
+      <div className="mt-4 text-center d-flex align-item-center justify-content-center " >
+        <h2>Fetch Patient Emergency Record</h2>
       </div>
-      <div className="d-flex  algin-item-center justify-content-center  bg-body">
-        <div className="w-lg-50 p-lg-5 border rounded-3 mt-lg-5 shadow p-lg-3 mb-5  rounded">
-          <div className='d-flex border fs-1 mx-2 p-2 g-3' style={{fontSize:40}}>
-          <BiFingerprint className='border mx-2 fs-1 text-decoration-none' onClick={fingeronclick}/>
-          <CiFaceSmile className='border mx-2' onClick={faceonclick}/>
-          <BsFillEyeFill className='border mx-2 fs-1'/>
-          </div>
-          <div clasName=" ">
-          <BiFingerprint className='text-center  fs-1 text-success mt-4  fw-bold' style={{marginLeft:80}}/>
+      <div className="mx-md-auto mx-5 border rounded shadow mt-5 " style={{"max-width":"500px"}}>
+          <div className=' d-flex align-item-center justify-content-evenly border mx-sm-5 mx-2 my-3  py-3 flex-sm-row flex-wrap fs-1' >   
+              <BiFingerprint size={70}className='border m-2  text-decoration-none '   onClick={fingeronclick}/>
+              <CiFaceSmile size={70} className='border m-2' onClick={faceonclick}/>
+              <BsFillEyeFill size={70} className='border m-2 '/>
           </div>
           
-          <p className='text-center fw-bold mt-2'>Scan Fingerprint</p>
-            
-
-            
+          
+          <div className='d-flex align-item-center justify-content-center'>
+            <BiFingerprint size={70} className=' text-success mt-4  fw-bold' />
+          </div>
+          <p className='text-center fw-bold mt-2'>Scan Fingerprint</p>   
         </div>
       </div>
-    </div>
+    
   )
 }
