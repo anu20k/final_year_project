@@ -1,53 +1,108 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import {register} from '../api/userAuth'
 
 export default function UserRegistration() {
+  const [images, setImages] = useState([])
+
   const validationSchema = Yup.object({
-    firstname: Yup.string().required('Required'),
-    middlename: Yup.string().required('Required'),
-    lastname: Yup.string().required('Required'),
+    firstName: Yup.string().required('Required'),
+    middleName: Yup.string().required('Required'),
+    lastName: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
-    code: Yup.string().required('Required'),
-    contact1: Yup.string().required('Required'),
-    contact2: Yup.string().required('Required'),
-    address: Yup.string().required('Required'),
+    dateOfBirth: Yup.string().required('Required'),
+    PAN_ID: Yup.string().required('Required'),
+    addharID: Yup.string().required('Required'),
+    mobile: Yup.string().required('Required'),
+    emergencyMobile: Yup.string().required('Required'),
+    localAddress: Yup.string().required('Required'),
     city: Yup.string().required('Required'),
     district: Yup.string().required('Required'),
     state: Yup.string().required('Required'),
-    speciality: Yup.string().required('Required'),
+    gender: Yup.string().required('Required'),
+    image: Yup.string().required('Required'),
+    ABHA_ID: Yup.string().required('Required'),
+    bloodGroup: Yup.string().required('Required'),
+    longLifeDisease: Yup.string().required('Required'),
   })
 
-  const onSubmit = (values) => {
-    console.log('Form data', values)
+  // const onSubmit = (values) => {
+  //   console.log('Form data', values)
+  // }
+
+  const navigate = useNavigate()
+
+  const onSubmit = async (values) => {
+    localStorage.removeItem('token')
+    const response = await register(
+      values.firstName,
+      values.middleName,
+      values.lastName,
+      values.email,
+      values.password,
+      values.dateOfBirth,
+      values.PAN_ID,
+      values.addharID,
+      values.mobile,
+      values.emergencyMobile,
+      values.localAddress,
+      values.city,
+      values.district,
+      values.state,
+      values.gender,
+      values.image,
+      values.ABHA_ID,
+      values.bloodGroup,
+      values.longLifeDisease,
+    )
+
+    localStorage.setItem('token', response.token)
+    console.log(response.token)
+    console.log(response)
+
+    if (response.token) 
+    navigate('/user/auth/login')
+  }
+
+  function onImageChange(e) {
+    setImages([...e.target.files[0]])
   }
 
   const formik = useFormik({
     initialValues: {
-      firstname: ' ',
-      middlename: ' ',
-      lastname: ' ',
-      email: '',
-      password: '',
-      code: '',
-      contact1: '',
-      contact2: '',
-      address: '',
-      city: '',
-      district: '',
-      state: '',
-      speciality: '',
+      firstName: ' ',
+      middleName: ' ',
+      lastName: ' ',
+      email: ' ',
+      password: ' ',
+      dateOfBirth: ' ',
+      PAN_ID: ' ',
+      addharID: ' ',
+      mobile: ' ',
+      emergencyMobile: ' ',
+      localAddress: ' ',
+      city: ' ',
+      district: ' ',
+      state: ' ',
+      gender: ' ',
+      image: ' ',
+      ABHA_ID: ' ',
+      bloodGroup: ' ',
+      longLifeDisease: ' ',
     },
     onSubmit,
     validationSchema,
+    onImageChange,
+    
   })
-  console.log('Form values', formik.values)
+  // console.log('Form values', formik.values)
 
   return (
     <div>
@@ -64,46 +119,46 @@ export default function UserRegistration() {
         <div className="w-lg-75 p-lg-5 rounded-3 mt-5 shadow p-3 mb-5  rounded">
           <Form className="75" onSubmit={formik.handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridfirst">
+              <Form.Group as={Col} controlId="formGridfirstName">
                 <Form.Label className="fw-bold">Name*</Form.Label>
                 <Form.Control
                   type="text"
-                  name="firstname"
+                  name="firstName"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.firstname}
+                  value={formik.values.firstName}
                   placeholder="First"
                 />
-                {formik.touched.firstname && formik.errors.firstname ? (
-                  <div className="error">{formik.errors.firstname}</div>
+                {formik.touched.firstName && formik.errors.firstName ? (
+                  <div className="error">{formik.errors.firstName}</div>
                 ) : null}
               </Form.Group>
-              <Form.Group as={Col} controlId="formGridsecond">
+              <Form.Group as={Col} controlId="formGridmiddleName">
                 <Form.Label className="fw-bold mb-4"></Form.Label>
                 <Form.Control
                   type="text"
-                  name="middlename"
+                  name="middleName"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.middlename}
+                  value={formik.values.middleName}
                   placeholder="Second"
                 />
-                {formik.touched.middlename && formik.errors.middlename ? (
-                  <div className="error">{formik.errors.middlename}</div>
+                {formik.touched.middleName && formik.errors.middleName ? (
+                  <div className="error">{formik.errors.middleName}</div>
                 ) : null}
               </Form.Group>
-              <Form.Group as={Col} controlId="formGridthird">
+              <Form.Group as={Col} controlId="formGridlastName">
                 <Form.Label className="fw-bold mb-4"></Form.Label>
                 <Form.Control
                   type="text"
-                  name="lastname"
+                  name="lastName"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.lastname}
+                  value={formik.values.lastName}
                   placeholder="last"
                 />
-                {formik.touched.lastname && formik.errors.lastname ? (
-                  <div className="error">{formik.errors.lastname}</div>
+                {formik.touched.lastName && formik.errors.lastName ? (
+                  <div className="error">{formik.errors.lastName}</div>
                 ) : null}
               </Form.Group>
 
@@ -141,101 +196,102 @@ export default function UserRegistration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGriddob">
+              <Form.Group as={Col} controlId="formGriddateOfBirth">
                 <Form.Label className="fw-bold">Date of Birth*</Form.Label>
                 <Form.Control
                   type="date"
-                  name="dob"
+                  name="dateOfBirth"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.dob}
+                  value={formik.values.dateOfBirth}
                   placeholder="DOB"
                 />
               </Form.Group>
-              {formik.touched.dob && formik.errors.dob ? (
-                <div className="error">{formik.errors.dob}</div>
+              {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
+                <div className="error">{formik.errors.dateOfBirth}</div>
               ) : null}
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridadhar">
-                <Form.Label className="fw-bold">Addhar ID*</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="addharid"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.addharid}
-                  placeholder="Addhar id"
-                />
-                {formik.touched.addharid && formik.errors.addharid ? (
-                  <div className="error">{formik.errors.addharid}</div>
-                ) : null}
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridpanid">
+              <Form.Group as={Col} controlId="formGridPAN_ID">
                 <Form.Label className="fw-bold">Pan ID*</Form.Label>
                 <Form.Control
                   type="text"
-                  name="panid"
+                  name="PAN_ID"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.panid}
-                  placeholder="Contact No.2"
+                  value={formik.values.PAN_ID}
+                  placeholder="Pan id"
+                />
+                {formik.touched.PAN_ID && formik.errors.PAN_ID ? (
+                  <div className="error">{formik.errors.PAN_ID}</div>
+                ) : null}
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridaddharID">
+                <Form.Label className="fw-bold">Adhar ID*</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="addharID"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.addharID}
+                  placeholder="Adhar ID"
                 />
               </Form.Group>
-              {formik.touched.panid && formik.errors.panid ? (
-                <div className="error">{formik.errors.panid}</div>
+              {formik.touched.addharID && formik.errors.addharID ? (
+                <div className="error">{formik.errors.addharID}</div>
               ) : null}
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridcontact1">
+              <Form.Group as={Col} controlId="formGridmobile">
                 <Form.Label className="fw-bold">Contact No*</Form.Label>
                 <Form.Control
                   type="text"
-                  name="contact"
+                  name="mobile"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.contact}
+                  value={formik.values.mobile}
                   placeholder="Contact No."
                 />
-                {formik.touched.contact && formik.errors.contact ? (
-                  <div className="error">{formik.errors.contact}</div>
+                {formik.touched.mobile && formik.errors.mobile ? (
+                  <div className="error">{formik.errors.mobile}</div>
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridemergencyno">
+              <Form.Group as={Col} controlId="formGridemergencyMobile">
                 <Form.Label className="fw-bold">Emergency No*</Form.Label>
                 <Form.Control
                   type="text"
-                  name="emergencyno"
+                  name="emergencyMobile"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.emergencyno}
+                  value={formik.values.emergencyMobile}
                   placeholder="Emergency no"
                 />
               </Form.Group>
-              {formik.touched.emergencyno && formik.errors.emergencyno ? (
-                <div className="error">{formik.errors.emergencyno}</div>
+              {formik.touched.emergencyMobile &&
+              formik.errors.emergencyMobile ? (
+                <div className="error">{formik.errors.emergencyMobile}</div>
               ) : null}
             </Row>
 
             <Row className="mb-3">
               <Col xs={6}>
-                <Form.Group controlId="formGridadress">
+                <Form.Group controlId="formGridlocalAddress">
                   <Form.Label className="fw-bold">Local Address*</Form.Label>
                   <Form.Control
                     type="adress"
-                    name="address"
+                    name="localAddress"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.address}
+                    value={formik.values.localAddress}
                     placeholder="Local Address"
                   />
                 </Form.Group>
-                {formik.touched.address && formik.errors.address ? (
-                  <div className="error">{formik.errors.address}</div>
+                {formik.touched.localAddress && formik.errors.localAddress ? (
+                  <div className="error">{formik.errors.localAddress}</div>
                 ) : null}
               </Col>
 
@@ -284,73 +340,85 @@ export default function UserRegistration() {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridmale ">
-              <Form.Label className="fw-bold">Gender*</Form.Label><br></br>
-                <Form.Check
-                 inline
-                  label="Male"
-                  name="male"
-                  type="radio"
+              <Form.Group as={Col} controlId="formGridgender">
+                <Form.Label className="fw-bold">Gender*</Form.Label>
+                <Form.Select
+                  defaultValue="Choose..."
+                  name="gender"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.male}
-                  
-                />
-                 <Form.Check
-                  inline
-                  label="Female"
-                  name="female"
-                  type="radio"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.female}
-                  
-                />
-                 <Form.Check
-                  inline
-                  label="Other"
-                  name="Other"
-                  type="radio"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.other}
-                  
-                />
-                {formik.touched.male && formik.errors.male? (
-                  <div className="error">{formik.errors.male}</div>
+                  value={formik.values.gender}
+                  placeholder="...."
+                >
+                  <option>select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Others</option>
+                </Form.Select>
+                {formik.touched.gender && formik.errors.gender ? (
+                  <div className="error">{formik.errors.gender}</div>
                 ) : null}
-
-                
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridemergencyno">
+              <Form.Group as={Col} controlId="formGridimages">
                 <Form.Label className="fw-bold">Upload Image*</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="file"
                   name="image"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.emergencyno}
+                  // value={images}
                   placeholder="upload"
+                  // multiple
+                  // accept="image/*"
                 />
               </Form.Group>
-              {/* {formik.touched.image && formik.errors.image ? (
-                <div className="error">{formik.errors.image}</div>
-              ) : null} */}
+            </Row>
+
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="formGridABHA_ID">
+                <Form.Label className="fw-bold">ABHA ID*</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="ABHA_ID"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.ABHA_ID}
+                  placeholder="abha_id"
+                />
+                {formik.touched.ABHA_ID && formik.errors.ABHA_ID ? (
+                  <div className="error">{formik.errors.ABHA_ID}</div>
+                ) : null}
+              </Form.Group>
+
+              <Form.Group as={Col} controlId="formGridbloodGroup">
+                <Form.Label className="fw-bold">Blood Group*</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="bloodGroup"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.bloodGroup}
+                  placeholder="Blood Group"
+                />
+              </Form.Group>
+              {formik.touched.bloodGroup && formik.errors.bloodGroup ? (
+                <div className="error">{formik.errors.bloodGroup}</div>
+              ) : null}
             </Row>
 
             <Row className="mb-5">
               <Col xs={12}>
-                <Form.Group controlId="formGridspeciality">
+                <Form.Group controlId="formGridlongLifeDisease">
                   <Form.Label className="fw-bold">
                     Long Term Diseases
                   </Form.Label>
                   <Form.Select
                     defaultValue="Choose..."
-                    name="speciality"
+                    name="longLifeDisease"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.speciality}
+                    value={formik.values.longLifeDisease}
                   >
                     <option>Cardic Attack</option>
                     <option>Asthma</option>
@@ -358,8 +426,9 @@ export default function UserRegistration() {
                     <option>Diabetes</option>
                   </Form.Select>
                 </Form.Group>
-                {formik.touched.speciality && formik.errors.speciality ? (
-                  <div className="error">{formik.errors.speciality}</div>
+                {formik.touched.longLifeDisease &&
+                formik.errors.longLifeDisease ? (
+                  <div className="error">{formik.errors.longLifeDisease}</div>
                 ) : null}
               </Col>
             </Row>
@@ -370,7 +439,7 @@ export default function UserRegistration() {
             </div>
             <p className="text-center">
               All ready have an account?{' '}
-              <Link to='/user/auth/login'>
+              <Link to="/">
                 <strong>
                   <u> Login</u>
                 </strong>

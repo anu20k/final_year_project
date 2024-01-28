@@ -21,9 +21,14 @@ export default function UserLogin() {
     localStorage.setItem("token", response.token);
     console.log(response.token)
     
-    if(response.token)
+    if(response.token){
+      navigate('/');
+    }
+    else{
+      alert("Invalid Credential");
+    }
+       
 
-    navigate('#');
   
   }
 
@@ -50,7 +55,7 @@ export default function UserLogin() {
       <div className="d-flex  algin-item-center justify-content-center  bg-body">
         <div className="w-lg-25 p-lg-5 border rounded-3 mt-lg-5 shadow p-lg-3 mb-5  rounded">
           <Form className="" onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicaddharID">
               <Form.Label className="fw-bold">Addhar ID*</Form.Label>
               <Form.Control
                 type="text"
@@ -65,7 +70,7 @@ export default function UserLogin() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicpassword">
               <Form.Label className="fw-bold">Password*</Form.Label>
               <Form.Control
                 type="password"

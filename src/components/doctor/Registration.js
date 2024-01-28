@@ -28,7 +28,7 @@ export default function Registration() {
   const navigate = useNavigate()
 
   const onSubmit = async (values) => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token")
     const response = await register(
       values.name,
       values.email,
@@ -45,11 +45,14 @@ export default function Registration() {
       values.subSpeciality,
     )
 
-    localStorage.setItem('token', response.token)
+    localStorage.setItem("token", response.token)
     console.log(response.token)
     console.log(response)
 
-    if (response.token) navigate('/')
+    if (response.token) navigate('/doctor/auth/login')
+    else{
+         console.log("error")
+  }
   }
 
   const formik = useFormik({
@@ -71,7 +74,7 @@ export default function Registration() {
     onSubmit,
     validationSchema,
   })
-  // console.log('Form values', formik.values)
+  console.log('Form values', formik.values)
 
   return (
     <div>
@@ -88,7 +91,7 @@ export default function Registration() {
         <div className="w-lg-75 p-lg-5 rounded-3 mt-5 shadow p-3 mb-5  rounded">
           <Form className="75" onSubmit={formik.handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridfirst">
+              <Form.Group as={Col} controlId="formGridname">
                 <Form.Label className="fw-bold">Full Name*</Form.Label>
                 <Form.Control
                   type="text"
@@ -105,7 +108,7 @@ export default function Registration() {
 
               <Col xs={6}>
                 <Form.Group controlId="formGridemail">
-                  <Form.Label className="fw-bold">User Email*</Form.Label>
+                  <Form.Label className="fw-bold">Doctor Email*</Form.Label>
                   <Form.Control
                     type="email"
                     name="email"
@@ -137,7 +140,7 @@ export default function Registration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGriddob">
+              <Form.Group as={Col} controlId="formGriddateOfBirth">
                 <Form.Label className="fw-bold">Date of Birth*</Form.Label>
                 <Form.Control
                   type="date"
@@ -154,22 +157,27 @@ export default function Registration() {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridadhar">
+            <Form.Group as={Col} controlId="formGridgender">
                 <Form.Label className="fw-bold">Gender*</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
+                  defaultValue="Choose..."
                   name="gender"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.gender}
-                  placeholder="gender"
-                />
+                  placeholder="...."
+                >
+                  <option>select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Others</option>
+                </Form.Select>
                 {formik.touched.gender && formik.errors.gender ? (
                   <div className="error">{formik.errors.gender}</div>
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridpanid">
+              <Form.Group as={Col} controlId="formGriddegree">
                 <Form.Label className="fw-bold">Degree*</Form.Label>
                 <Form.Control
                   type="text"
@@ -186,7 +194,7 @@ export default function Registration() {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridcontact1">
+              <Form.Group as={Col} controlId="formGridcontactNo">
                 <Form.Label className="fw-bold">Contact No*</Form.Label>
                 <Form.Control
                   type="text"
@@ -201,7 +209,7 @@ export default function Registration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridemergencyno">
+              <Form.Group as={Col} controlId="formGridlocalAddress">
                 <Form.Label className="fw-bold">Local Address*</Form.Label>
                 <Form.Control
                   type="text"
@@ -263,7 +271,7 @@ export default function Registration() {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridcontact1">
+              <Form.Group as={Col} controlId="formGridspecialty">
                 <Form.Label className="fw-bold">Speciality*</Form.Label>
                 <Form.Select
                   defaultValue="Choose..."
@@ -289,7 +297,7 @@ export default function Registration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridcontact1">
+              <Form.Group as={Col} controlId="formGridsubSpeciality1">
                 <Form.Label className="fw-bold">Sub Speciality*</Form.Label>
                 <Form.Select
                   defaultValue="Choose..."

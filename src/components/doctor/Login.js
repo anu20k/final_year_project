@@ -5,13 +5,12 @@ import Form from 'react-bootstrap/Form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-
 import { login } from "../api/doctorAuth";
 
 export default function Login() {
 
     const navigate = useNavigate();
-  const validationSchema = Yup.object({
+    const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email format').required('Required'),
     password: Yup.string().required('Required'),
   })
@@ -22,11 +21,14 @@ export default function Login() {
 
       localStorage.removeItem("token")
       const response = await login(values.email, values.password);
-
       localStorage.setItem("token", response.token);
       
-      if(response.token)
-      navigate('#');
+      if(response.token){
+        navigate('/');
+      }
+     else{
+        alert("Invalid Credential");
+      }
     
     }
   
@@ -55,7 +57,7 @@ export default function Login() {
       <div className="d-flex  algin-item-center justify-content-center  bg-body">
         <div className="w-lg-25 p-lg-5 border rounded-3 mt-lg-5 shadow p-lg-3 mb-5  rounded">
           <Form className="" onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" controlId="formBasicemail">
               <Form.Label className="fw-bold"> Doctor Email*</Form.Label>
               <Form.Control
                 type="email"
@@ -70,7 +72,7 @@ export default function Login() {
               ) : null}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="formBasicpassword">
               <Form.Label className="fw-bold">Password*</Form.Label>
               <Form.Control
                 type="password"

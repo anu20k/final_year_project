@@ -25,6 +25,9 @@ export default function Login() {
     if (response.token) {
       navigate('/hospital')
     }
+    else{
+      alert("Invalid Credential");
+    }
   }
 
   const formik = useFormik({
@@ -78,7 +81,12 @@ export default function Login() {
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>
-            <p>Forget Password?</p>
+          
+            <p><Link to="/hospital/auth/forgotpass" style={{ color: 'red', textDecoration:'none' }}>
+                <strong className='text-decoration-none fw-normal' >
+                  Forget Password?
+                </strong>
+              </Link></p>
 
             <Button variant="primary" type="submit" className="w-100 fw-bold">
               Login

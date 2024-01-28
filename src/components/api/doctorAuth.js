@@ -1,4 +1,4 @@
-const api_url = 'https://booking-system-5ufq.onrender.com/api/'
+const api_url = 'https://emergencyhealthlink.onrender.com/api/'
 const register = async (
   name,
   email,
@@ -14,7 +14,7 @@ const register = async (
   specialty,
   subSpeciality,
 ) => {
-  const url = api_url + 'user/register'
+  const url = api_url + 'doctor/register'
 
   const requestOptions = {
     method: 'POST',
@@ -44,7 +44,7 @@ const register = async (
 }
 
 const login = async (email, password) => {
-  const url = api_url + 'user/login'
+  const url = api_url + 'doctor/login'
 
   const requestOptions = {
     method: 'POST',
@@ -62,7 +62,7 @@ const login = async (email, password) => {
   return body
 }
 const changePassword = async (password) => {
-  const url = api_url + 'user/changepassword'
+  const url = api_url + 'doctor/changepassword'
   const jwt = 'Bearer ' + localStorage.getItem('token')
   const requestOptions = {
     method: 'PUT',
@@ -78,7 +78,7 @@ const changePassword = async (password) => {
   return body
 }
 const loggedUser = async () => {
-  const url = api_url + 'user/loggeduser'
+  const url = api_url + 'doctor/loggeduser'
   const jwt = 'Bearer ' + localStorage.getItem('token')
   const requestOptions = {
     method: 'GET',
@@ -91,7 +91,7 @@ const loggedUser = async () => {
   return body
 }
 const sentResetPasswordEmail = async (email) => {
-  const url = api_url + 'user/sent-reset-password-email'
+  const url = api_url + 'doctor/sent-reset-password-email'
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -106,7 +106,7 @@ const sentResetPasswordEmail = async (email) => {
   return body
 }
 const resetPassword = async (password, id, token) => {
-  const url = api_url + 'user/sent-reset-password-email'
+  const url = api_url + 'doctor/sent-reset-password-email'
 
   const requestOptions = {
     method: 'PUT',
