@@ -33,7 +33,8 @@ export default function FetchPatientEmergencyRecord() {
           <div className='d-flex align-item-center justify-content-center'>
             <BiFingerprint size={70} className=' text-success mt-4  fw-bold' />
           </div>
-          <p className='text-center fw-bold mt-2'>Scan Fingerprint</p>  
+          <Link to="/hospital/auth/otp">
+          <p className='text-center fw-bold mt-2'>Scan Fingerprint</p>  </Link>
           <Link to="/hospital/fetchPatientEmergencyRecord" style={{ color:"black" }}>
           <p className='text-center fw-bold mt-2'>Back</p>
           </Link> 
