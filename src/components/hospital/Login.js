@@ -19,7 +19,6 @@ export default function Login() {
   const onSubmit = async (values) => {
     localStorage.clear()
     const response = await login(values.email, values.password)
-
     localStorage.setItem('token', response.token)
 
     if (response.token) {
@@ -93,7 +92,7 @@ export default function Login() {
             </Button>
             <p>
               Don't have an account?{' '}
-              <Link to="/HospitalRegistration">
+              <Link to="/hospital/auth/registration">
                 <strong>
                   <u>Register</u>
                 </strong>

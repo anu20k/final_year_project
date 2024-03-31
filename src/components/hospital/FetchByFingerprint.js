@@ -4,6 +4,8 @@ import { CiFaceSmile } from "react-icons/ci";
 import { BsFillEyeFill } from "react-icons/bs";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import {CaptureFinger} from './mfs100';
 
 export default function FetchPatientEmergencyRecord() {
   const navigate = useNavigate()
@@ -14,7 +16,7 @@ export default function FetchPatientEmergencyRecord() {
     navigate('/hospital/fetchPatientEmergencyRecord/face')
 }
 
-  
+ 
   return (
     <div>
       <div
@@ -38,8 +40,9 @@ export default function FetchPatientEmergencyRecord() {
           <Link to="/hospital/fetchPatientEmergencyRecord" style={{ color:"black" }}>
           <p className='text-center fw-bold mt-2'>Back</p>
           </Link> 
+          
         </div>
-        
+        </div>
       </div>
     
   )

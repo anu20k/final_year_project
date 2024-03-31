@@ -1,40 +1,145 @@
-import React from 'react'
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import React,{useEffect, useState} from 'react'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
+import { Link, useNavigate } from 'react-router-dom'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import {pateintinfo} from '../api/doctor'
+
 
 export default function Patientinfo() {
-  return (
-    <div className='container my-5 '>
-         <Row>
-        <Col>
-        <h3 className='text-decoration-underline'>Paitent Name</h3>
-        <Button variant="light"  >Fetch Patient Health Record</Button>
-        </Col>
-        <Col>2 of 2</Col>
-      </Row>
-      <Row>
-      <div className="d-flex px-lg-5  algin-item-center   bg-body">
-        <div className="w-lg-100 p-lg-5 rounded-3 mt-5 shadow p-3 mb-5  rounded">
-            <h5 className='mb-3'>Addhar ID : 123456</h5>
-            <h5 className='mb-3'>Abha ID :</h5>
-            <h5 className='mb-3'>Mobile No. :</h5>
-            <h5 className='mb-3'>Emergency Mobile No. :</h5>
-            <h5 className='mb-3'>Blood Group :</h5>
-            <h5 className='mb-3'>Life Long Diseases :</h5>
-            <h5 className='mb-3'>DOB :</h5>
-            <h5 className='mb-3'>Local Address :</h5>
-            <h5 className='mb-3'>City :</h5>
-            <h5 className='mb-3'>District :</h5>
-            <h5 className='mb-3'>State :</h5>
-            <h5 className='mb-3'>Pan ID :</h5>
-            <h5 className='mb-3'>Email :</h5>
-            
+  
+  const navigate = useNavigate()
+  const [patientData, setPatientData] = useState("");
+  
+  const onHandleChange = () => {
+    navigate('/hospital/auth/otp')
+  }
+  
+  
+    
+     useEffect(() => {
+    // Fetch patient info when component mounts
+    const fetchData = async () => {
+      try {
+        const data = await pateintinfo(); // Call the asynchronous function
+        setPatientData(data.user); // Update state with fetched data
+       console.log(patientData)
+        
+      } catch (error) {
+        console.error('Error fetching patient info:', error);
+      }
+    };
 
-            </div>
-            </div>
+    fetchData(); // Invoke the fetchData function
+  }, []); 
+
+  
+  return (
+    <div className="container my-5 ">
+      <Row>
+        <Col> 
+          <h3 className="text-decoration-underline">{patientData.firstName} {" "} {patientData.lastName}</h3>
+          <Button variant="light" onClick={onHandleChange}>
+            Fetch Patient Health Record
+          </Button>
+        </Col>
+        <Col>
+        <img src="./src/components/hospital/anuja.jpg" className='w-25 border rounded-circle float-end' alt='hello'/>
+        </Col> 
       </Row>
-      
+      <Row > 
+        <div className="px-lg-5    bg-body">
+          <div className=" p-lg-5 rounded-3 mt-5 shadow p-3 mb-5  rounded">
+            <div></div>
+            <List>
+              <ListItem className=' border-bottom'>
+                <ListItemText primary="Addhar ID" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.aadharId} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Abha ID" className=' fw-bold'/>
+                {/* <ListItemText primary=":" className='fw-bold'/> */}
+                
+                <ListItemText primary={patientData.ABHA_Id} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Mobile No." className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.mobile} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Emergency Mobile No." className=' fw-bold'/>
+                
+                <ListItemText primary={patientData.emergencyMobile} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Blood Group" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.bloodGroup} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Life Long Diseases" className=' fw-bold'/>
+                
+                <ListItemText primary={patientData.longLifeDisease} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="DOB" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.dateOfBirth} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Local Address" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.localAddress} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="City" className='fw-bold'/>
+                
+                <ListItemText primary={patientData.city} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="District" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.district} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="State" className='fw-bold'/>
+                
+                <ListItemText primary={patientData.state} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Pan ID" className=' fw-bold'/>
+               
+                <ListItemText primary={patientData.PAN_Id} className='ms-auto'/>
+              </ListItem>
+
+              <ListItem className='border-bottom'>
+                <ListItemText primary="Email" className=' fw-bold'/>
+                
+                <ListItemText primary={patientData.email} className='ms-auto'/>
+              </ListItem>
+            </List>
+
+          </div>
+        </div>
+      </Row> 
     </div>
   )
 }

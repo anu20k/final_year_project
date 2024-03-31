@@ -1,4 +1,4 @@
-const api_url = 'https://emergencyhealthlink.onrender.com/api/'
+const api_url = 'https://ehl.onrender.com/api/'
 const register = async (
   name,
   email,
@@ -31,9 +31,7 @@ const register = async (
       speciality:speciality,
     }),
   }
-
   const response = await fetch(url, requestOptions)
-
   const body = await response.json()
 
   return body

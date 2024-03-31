@@ -1,4 +1,5 @@
-const api_url = 'https://emergencyhealthlink.onrender.com/api/'
+const api_url = 'https://ehl.onrender.com/api/'
+
 const register = async (
   firstName,
   middleName,
@@ -6,8 +7,8 @@ const register = async (
   email,
   password,
   dateOfBirth,
-  PAN_ID,
-  addharID,
+  PAN_Id,
+  aadharId,
   mobile,
   emergencyMobile,
   localAddress,
@@ -16,7 +17,7 @@ const register = async (
   state,
   gender,
   image,
-  ABHA_ID,
+  ABHA_Id,
   bloodGroup,
   longLifeDisease,
 ) => {
@@ -26,14 +27,15 @@ const register = async (
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+
       firstName:firstName,
       middleName:middleName,
       lastName:lastName,
       email:email,
       password:password,
       dateOfBirth:dateOfBirth,
-      PAN_ID:PAN_ID,
-      addharID:addharID,
+      PAN_Id:PAN_Id,
+      aadharId:aadharId,
       mobile:mobile,
       emergencyMobile:emergencyMobile,
       localAddress:localAddress,
@@ -42,7 +44,7 @@ const register = async (
       state:state,
       gender:gender,
       image:image,
-      ABHA_ID:ABHA_ID,
+      ABHA_Id:ABHA_Id,
       bloodGroup:bloodGroup,
       longLifeDisease:longLifeDisease,
     }),
@@ -55,14 +57,14 @@ const register = async (
   return body
 }
 
-const login = async (addharID, password) => {
+const login = async (aaddharID, password) => {
   const url = api_url + 'user/login'
 
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      addharID:addharID,
+      aadharId: aaddharID,
       password: password,
     }),
   }
@@ -73,6 +75,9 @@ const login = async (addharID, password) => {
 
   return body
 }
+
+
+
 const changePassword = async (password) => {
   const url = api_url + 'user/changepassword'
   const jwt = 'Bearer ' + localStorage.getItem('token')
@@ -117,7 +122,7 @@ const sentResetPasswordEmail = async (email) => {
 
   return body
 }
-const resetPassword = async (password , id, token) => {
+const resetPassword = async (password, id, token) => {
   const url = api_url + 'user/sent-reset-password-email'
 
   const requestOptions = {

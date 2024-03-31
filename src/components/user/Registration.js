@@ -6,31 +6,34 @@ import Row from 'react-bootstrap/Row'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-import {register} from '../api/userAuth'
+import { register } from '../api/userAuth'
+import { Multiselect } from 'multiselect-react-dropdown'
 
 export default function UserRegistration() {
-  const [images, setImages] = useState([])
+  const [image, setImage] = useState([])
 
   const validationSchema = Yup.object({
+    
+
     firstName: Yup.string().required('Required'),
     middleName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     email: Yup.string().required('Required'),
     password: Yup.string().required('Required'),
     dateOfBirth: Yup.string().required('Required'),
-    PAN_ID: Yup.string().required('Required'),
-    addharID: Yup.string().required('Required'),
-    mobile: Yup.string().required('Required'),
-    emergencyMobile: Yup.string().required('Required'),
-    localAddress: Yup.string().required('Required'),
-    city: Yup.string().required('Required'),
-    district: Yup.string().required('Required'),
-    state: Yup.string().required('Required'),
-    gender: Yup.string().required('Required'),
-    image: Yup.string().required('Required'),
-    ABHA_ID: Yup.string().required('Required'),
-    bloodGroup: Yup.string().required('Required'),
-    longLifeDisease: Yup.string().required('Required'),
+    PAN_Id: Yup.string().required('Required'),
+    aadharId:Yup.string().required('Required'),
+    mobile:Yup.string().required('Required'),
+    emergencyMobile:Yup.string().required('Required'),
+    localAddress:Yup.string().required('Required'),
+    city:Yup.string().required('Required'),
+    district:Yup.string().required('Required'),
+    state:Yup.string().required('Required'),
+    gender:Yup.string().required('Required'),
+    image:Yup.string().required('Required'),
+    ABHA_Id:Yup.string().required('Required'),
+    bloodGroup:Yup.string().required('Required'),
+    longLifeDisease:Yup.array().required('Required'),
   })
 
   // const onSubmit = (values) => {
@@ -38,6 +41,13 @@ export default function UserRegistration() {
   // }
 
   const navigate = useNavigate()
+
+  const customSerialize = (values, { setSubmitting }) => {
+    const serializedValues = { ...values }
+    // Remove circular references or complex objects here if necessary
+    return JSON.stringify(serializedValues)
+    // setSubmitting(false);
+  }
 
   const onSubmit = async (values) => {
     localStorage.removeItem('token')
@@ -48,8 +58,8 @@ export default function UserRegistration() {
       values.email,
       values.password,
       values.dateOfBirth,
-      values.PAN_ID,
-      values.addharID,
+      values.PAN_Id,
+      values.aadharId,
       values.mobile,
       values.emergencyMobile,
       values.localAddress,
@@ -58,21 +68,20 @@ export default function UserRegistration() {
       values.state,
       values.gender,
       values.image,
-      values.ABHA_ID,
+      values.ABHA_Id,
       values.bloodGroup,
-      values.longLifeDisease,
+      customSerialize(values),
     )
 
     localStorage.setItem('token', response.token)
     console.log(response.token)
     console.log(response)
 
-    if (response.token) 
-    navigate('/user/auth/login')
+    if (response.token) navigate('/user/auth/login')
   }
 
   function onImageChange(e) {
-    setImages([...e.target.files[0]])
+    setImage([...e.target.files[0]])
   }
 
   const formik = useFormik({
@@ -84,7 +93,7 @@ export default function UserRegistration() {
       password: ' ',
       dateOfBirth: ' ',
       PAN_ID: ' ',
-      addharID: ' ',
+      aaddharID: ' ',
       mobile: ' ',
       emergencyMobile: ' ',
       localAddress: ' ',
@@ -95,15 +104,23 @@ export default function UserRegistration() {
       image: ' ',
       ABHA_ID: ' ',
       bloodGroup: ' ',
-      longLifeDisease: ' ',
+      longLifeDisease: [],
     },
     onSubmit,
     validationSchema,
     onImageChange,
-    
   })
+
   // console.log('Form values', formik.values)
 
+  const data = [
+    { disease: 'cardiacAttack', id: 1 },
+    { disease: 'asthma', id: 2 },
+    { disease: 'hypertension', id: 3 },
+    { disease: 'diabetes', id: 4 },
+  ]
+
+  const [diseasesOptions] = useState(data)
   return (
     <div>
       <div
@@ -228,19 +245,19 @@ export default function UserRegistration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridaddharID">
+              <Form.Group as={Col} controlId="formGridaaddharID">
                 <Form.Label className="fw-bold">Adhar ID*</Form.Label>
                 <Form.Control
                   type="text"
-                  name="addharID"
+                  name="aaddharID"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.addharID}
+                  value={formik.values.aaddharID}
                   placeholder="Adhar ID"
                 />
               </Form.Group>
-              {formik.touched.addharID && formik.errors.addharID ? (
-                <div className="error">{formik.errors.addharID}</div>
+              {formik.touched.aaddharID && formik.errors.aaddharID ? (
+                <div className="error">{formik.errors.aaddharID}</div>
               ) : null}
             </Row>
 
@@ -360,17 +377,14 @@ export default function UserRegistration() {
                 ) : null}
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridimages">
+              <Form.Group as={Col} controlId="formGridimage">
                 <Form.Label className="fw-bold">Upload Image*</Form.Label>
                 <Form.Control
                   type="file"
                   name="image"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  // value={images}
                   placeholder="upload"
-                  // multiple
-                  // accept="image/*"
                 />
               </Form.Group>
             </Row>
@@ -413,18 +427,26 @@ export default function UserRegistration() {
                   <Form.Label className="fw-bold">
                     Long Term Diseases
                   </Form.Label>
-                  <Form.Select
-                    defaultValue="Choose..."
+                  <Multiselect
                     name="longLifeDisease"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    isMulti
+                    options={diseasesOptions}
                     value={formik.values.longLifeDisease}
+                    onChange={(longLifeDisease) =>
+                      formik.setFieldValue('longLifeDisease', longLifeDisease)
+                    }
+                    onBlur={formik.handleBlur('longLifeDisease')}
+                    displayValue="disease"
+                    // onChange={formik.handleChange}
+                    // onBlur={formik.handleBlur}
+                    // value={formik.values.longLifeDisease}
                   >
-                    <option>Cardic Attack</option>
-                    <option>Asthma</option>
-                    <option>Hypertension</option>
-                    <option>Diabetes</option>
-                  </Form.Select>
+                    {diseasesOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </Multiselect>
                 </Form.Group>
                 {formik.touched.longLifeDisease &&
                 formik.errors.longLifeDisease ? (
@@ -439,7 +461,7 @@ export default function UserRegistration() {
             </div>
             <p className="text-center">
               All ready have an account?{' '}
-              <Link to="/">
+              <Link to="/user/auth/login">
                 <strong>
                   <u> Login</u>
                 </strong>

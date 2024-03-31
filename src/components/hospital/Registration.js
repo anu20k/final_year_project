@@ -51,7 +51,7 @@ export default function HospitalRegistration() {
     
     if(response.token)
 
-    navigate('/');
+    navigate('/hospital/auth/login');
   
   }
 
@@ -278,7 +278,7 @@ export default function HospitalRegistration() {
             </div>
             <p className="text-center">
               All ready have an account?{' '}
-              <Link to="/">
+              <Link to="/hospital/auth/login">
               <strong>
                 <u> Login</u>
               </strong>

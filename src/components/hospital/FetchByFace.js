@@ -15,6 +15,18 @@ const FetchByFace = () => {
   const navigate = useNavigate()
   const [picture, setPicture] = useState('')
   const webcamRef = React.useRef(null)
+  const [data, setData] = useState('')
+
+
+
+  // const sendLabelToBackend = async (label) => {
+  //   try {
+  //     // const response = await axios.post('/your-backend-endpoint', { label });
+  //     console.log(response.data); // Assuming the backend responds with some data
+  //   } catch (error) {
+  //     console.error('Error sending label to backend:', error);
+  //   }
+  // };
  
   const capture = React.useCallback(async() => {
     
@@ -44,7 +56,13 @@ const FetchByFace = () => {
     formData.append('File1', file || blob);
 
     const body = await checkFace(formData);
-    console.log(body)
+    const label=body.result[0]._label
+    setData(label)
+    console.log("hii")
+    console.log(label)
+
+    // sendLabelToBackend(label)
+
   })
   return (
     <div>
