@@ -1,22 +1,21 @@
-import React from 'react'
+import React from "react";
 import { BiFingerprint } from "react-icons/bi";
 import { CiFaceSmile } from "react-icons/ci";
 import { BsFillEyeFill } from "react-icons/bs";
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import {CaptureFinger} from './mfs100';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+//import {CaptureFinger} from './mfs100';
 
 export default function FetchPatientEmergencyRecord() {
-  const navigate = useNavigate()
-  const fingeronclick =() =>{
-       navigate('/patientinfo')
-  }
-  const faceonclick =() =>{
-    navigate('/hospital/fetchPatientEmergencyRecord/face')
-}
+  const navigate = useNavigate();
+  const fingeronclick = () => {
+    navigate("/patientInfo");
+  };
+  const faceonclick = () => {
+    navigate("/hospital/fetchPatientEmergencyRecord/face");
+  };
 
- 
   return (
     <div>
       <div
@@ -25,25 +24,26 @@ export default function FetchPatientEmergencyRecord() {
       >
         EHL
       </div>
-      <div className="mt-4 text-center d-flex align-item-center justify-content-center " >
+      <div className="mt-4 text-center d-flex align-item-center justify-content-center ">
         <h2>Fetch Patient Emergency Record</h2>
       </div>
-      <div className="mx-md-auto mx-5 border rounded shadow mt-5 " style={{"max-width":"500px"}}>
-          
-          
-          
-          <div className='d-flex align-item-center justify-content-center'>
-            <BiFingerprint size={70} className=' text-success mt-4  fw-bold' />
-          </div>
-          <Link to="/hospital/auth/otp">
-          <p className='text-center fw-bold mt-2'>Scan Fingerprint</p>  </Link>
-          <Link to="/hospital/fetchPatientEmergencyRecord" style={{ color:"black" }}>
-          <p className='text-center fw-bold mt-2'>Back</p>
-          </Link> 
-          
+      <div
+        className="mx-md-auto mx-5 border rounded shadow mt-5 "
+        style={{ "max-width": "500px" }}
+      >
+        <div className="d-flex align-item-center justify-content-center">
+          <BiFingerprint size={70} className=" text-success mt-4  fw-bold" />
         </div>
-        </div>
+        <Link to="/hospital/auth/otp">
+          <p className="text-center fw-bold mt-2">Scan Fingerprint</p>{" "}
+        </Link>
+        <Link
+          to="/hospital/fetchPatientEmergencyRecord"
+          style={{ color: "black" }}
+        >
+          <p className="text-center fw-bold mt-2">Back</p>
+        </Link>
       </div>
-    
-  )
+    </div>
+  );
 }

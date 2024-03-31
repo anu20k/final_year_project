@@ -7,14 +7,12 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import { register } from '../api/userAuth'
-import { Multiselect } from 'multiselect-react-dropdown'
+//import { Multiselect } from 'multiselect-react-dropdown'
 
 export default function UserRegistration() {
   const [image, setImage] = useState([])
 
   const validationSchema = Yup.object({
-    
-
     firstName: Yup.string().required('Required'),
     middleName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),

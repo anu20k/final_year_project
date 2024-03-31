@@ -1,5 +1,5 @@
-const api_url = 'https://ehl.onrender.com/api/'
-
+const baseUrl = "https://ehl.onrender.com/api/user/";
+// firstName,middleName,lastName,email,password,dateOfBirth,PAN_Id,aadharId,mobile,emergencyMobile,localAddress,city,district,state ,gender ,image,ABHA_Id,bloodGroup,longLifeDisease
 const register = async (
   firstName,
   middleName,
@@ -19,125 +19,130 @@ const register = async (
   image,
   ABHA_Id,
   bloodGroup,
-  longLifeDisease,
+  longLifeDisease
 ) => {
-  const url = api_url + 'user/register'
+  const url = baseUrl + "register";
 
   const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-
-      firstName:firstName,
-      middleName:middleName,
-      lastName:lastName,
-      email:email,
-      password:password,
-      dateOfBirth:dateOfBirth,
-      PAN_Id:PAN_Id,
-      aadharId:aadharId,
-      mobile:mobile,
-      emergencyMobile:emergencyMobile,
-      localAddress:localAddress,
-      city:city,
-      district:district,
-      state:state,
-      gender:gender,
-      image:image,
-      ABHA_Id:ABHA_Id,
-      bloodGroup:bloodGroup,
-      longLifeDisease:longLifeDisease,
+      firstName: firstName,
+      middleName: middleName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      dateOfBirth: dateOfBirth,
+      PAN_Id: PAN_Id,
+      aadharId: aadharId,
+      mobile: mobile,
+      emergencyMobile: emergencyMobile,
+      localAddress: localAddress,
+      city: city,
+      district: district,
+      state: state,
+      gender: gender,
+      image: image,
+      ABHA_Id: ABHA_Id,
+      bloodGroup: bloodGroup,
+      longLifeDisease: longLifeDisease,
     }),
-  }
+  };
 
-  const response = await fetch(url, requestOptions)
-
-  const body = await response.json()
-
-  return body
-}
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
 const login = async (aaddharID, password) => {
-  const url = api_url + 'user/login'
+  const url = baseUrl + "login";
 
   const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       aadharId: aaddharID,
       password: password,
     }),
-  }
+  };
 
-  const response = await fetch(url, requestOptions)
-
-  const body = await response.json()
-
-  return body
-}
-
-
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
 const changePassword = async (password) => {
-  const url = api_url + 'user/changepassword'
-  const jwt = 'Bearer ' + localStorage.getItem('token')
+  const url = baseUrl + "changePassword";
+  const jwt = "Bearer " + localStorage.getItem("userToken");
   const requestOptions = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', Authorization: jwt },
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: jwt },
     body: JSON.stringify({
       password: password,
     }),
-  }
-  const response = await fetch(url, requestOptions)
+  };
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
-  const body = await response.json()
-
-  return body
-}
 const loggedUser = async () => {
-  const url = api_url + 'user/loggeduser'
-  const jwt = 'Bearer ' + localStorage.getItem('token')
+  const url = baseUrl + "loggedUser";
+  const jwt = "Bearer " + localStorage.getItem("userToken");
   const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', Authorization: jwt },
-  }
-  const response = await fetch(url, requestOptions)
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: jwt },
+  };
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
-  const body = await response.json()
-
-  return body
-}
 const sentResetPasswordEmail = async (email) => {
-  const url = api_url + 'user/sent-reset-password-email'
+  const url = baseUrl + "sentResetPasswordEmail";
   const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       email: email,
     }),
-  }
-  const response = await fetch(url, requestOptions)
+  };
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
-  const body = await response.json()
-
-  return body
-}
 const resetPassword = async (password, id, token) => {
-  const url = api_url + 'user/sent-reset-password-email'
-
+  let url = baseUrl + "resetPassword/";
+  url += id.toString() + "/";
+  url += token.tostring();
   const requestOptions = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       password: password,
     }),
-  }
-  const response = await fetch(url, requestOptions)
+  };
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
 
-  const body = await response.json()
+const deleteRecord = async (id) => {
+  let url = baseUrl + "delete";
+  url += `?id=${id}`;
+  const jwt = "Bearer " + localStorage.getItem("userToken");
 
-  return body
-}
+  const requestOptions = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json", Authorization: jwt },
+  };
+
+  const response = await fetch(url, requestOptions);
+  const body = await response.json();
+  return body;
+};
+
 export {
   login,
   register,
@@ -145,4 +150,5 @@ export {
   loggedUser,
   sentResetPasswordEmail,
   resetPassword,
-}
+  deleteRecord,
+};
