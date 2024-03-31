@@ -1,45 +1,41 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import { Link } from 'react-router-dom'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { login } from "../api/userAuth";
 
 export default function UserLogin() {
   const navigate = useNavigate();
   const validationSchema = Yup.object({
-    aadharID: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
-  })
+    aadharID: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+  });
 
-  const onSubmit= async (values) => {
-    localStorage.removeItem("token")
+  const onSubmit = async (values) => {
+    localStorage.clear();
     const response = await login(values.aadharID, values.password);
 
     localStorage.setItem("token", response.token);
-    console.log(response.token)
-    
-    if(response.token){
-      navigate('/');
-    }
-    else{
+    console.log(response.token);
+
+    if (response.token) {
+      navigate("/");
+    } else {
       alert("Invalid Credential");
     }
-       
-
-  
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
-      aadharID: '',
-      password: '',
+      aadharID: "",
+      password: "",
     },
     onSubmit,
     validationSchema,
-  })
+  });
   // console.log('Form values', formik.values)
   return (
     <div>
@@ -80,21 +76,26 @@ export default function UserLogin() {
                 value={formik.values.password}
                 placeholder="Password"
               />
-               {formik.touched.password && formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>
-            <p><Link to="/doctor/auth/forgotpass" style={{ color: 'red', textDecoration:'none' }}>
-                <strong className='text-decoration-none fw-normal' >
+            <p>
+              <Link
+                to="/doctor/auth/forgotpass"
+                style={{ color: "red", textDecoration: "none" }}
+              >
+                <strong className="text-decoration-none fw-normal">
                   Forget Password?
                 </strong>
-              </Link></p>
+              </Link>
+            </p>
 
             <Button variant="primary" type="submit" className="w-100 fw-bold">
               Login
             </Button>
             <p>
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link to="/user/auth/registration">
                 <strong>
                   <u>Register</u>
@@ -105,5 +106,5 @@ export default function UserLogin() {
         </div>
       </div>
     </div>
-  )
+  );
 }

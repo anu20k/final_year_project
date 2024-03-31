@@ -1,36 +1,35 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import { useNavigate } from 'react-router-dom'
-import { BiLogOut } from 'react-icons/bi'
-import DataTable, { createTheme } from 'react-data-table-component'
-import { loggedHospital } from '../api/hospitalAuth.js'
-import {useState,useEffect} from 'react'
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { useNavigate } from "react-router-dom";
+import { BiLogOut } from "react-icons/bi";
+import DataTable, { createTheme } from "react-data-table-component";
+import { loggedHospital } from "../api/hospitalAuth.js";
+import { useState, useEffect } from "react";
 
 export default function Hospitalhome() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const handleonClick = () => {
-    navigate('/hospital/fetchPatientEmergencyRecord')
-  }
+    navigate("/hospital/fetchPatientEmergencyRecord");
+  };
 
   const onclicklogout = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
 
-  const [indata, setindata] = React.useState([])
-  
+  const [indata, setindata] = React.useState([]);
 
   const resSeat = async () => {
     const response = await loggedHospital();
     console.log(response.status);
     if (response.status != "success") {
       localStorage.clear();
-      navigate('/hospital/auth/login')
+      navigate("/hospital/auth/login");
     } else {
       localStorage.setItem("hospital", JSON.stringify(response.hospital));
 
@@ -39,42 +38,41 @@ export default function Hospitalhome() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("hospitalToken")) {
       resSeat();
     } else {
       localStorage.clear();
-      navigate('/hospital/auth/login');
+      navigate("/hospital/auth/login");
     }
   }, []);
 
   createTheme(
-    'solarized',
+    "solarized",
     {
       text: {
-        primary: '#111111',
-        secondary: '#2aa198',
-        fontSize: '32',
-        
+        primary: "#111111",
+        secondary: "#2aa198",
+        fontSize: "32",
       },
       background: {
-        default: '#EFF5F5',
+        default: "#EFF5F5",
       },
       context: {
-        background: '#cb4b16',
-        text: '#FFFFFF',
+        background: "#cb4b16",
+        text: "#FFFFFF",
       },
       divider: {
-        default: '#073642',
+        default: "#073642",
       },
-      
+
       action: {
-        button: 'rgba(0,0,0,.54)',
-        hover: 'rgba(0,0,0,.08)',
-        disabled: 'rgba(0,0,0,.12)',
+        button: "rgba(0,0,0,.54)",
+        hover: "rgba(0,0,0,.08)",
+        disabled: "rgba(0,0,0,.12)",
       },
     },
-    'light',
-  )
+    "light"
+  );
 
   const customStyles = {
     // rows: {
@@ -83,20 +81,18 @@ export default function Hospitalhome() {
     //   }
     // },
 
-    
     headCells: {
       style: {
-        paddingLeft: '8px', // override the cell padding for head cells
-        paddingRight: '8px',
+        paddingLeft: "8px", // override the cell padding for head cells
+        paddingRight: "8px",
         fontSize: 15,
-        fontWeight:'bold'
+        fontWeight: "bold",
       },
-      
     },
     cells: {
       style: {
-        paddingLeft: '8px', // override the cell padding for data cells
-        paddingRight: '8px',
+        paddingLeft: "8px", // override the cell padding for data cells
+        paddingRight: "8px",
         fontSize: 15,
       },
     },
@@ -104,40 +100,46 @@ export default function Hospitalhome() {
 
   const colums = [
     {
-      name: 'Sr.No',
+      name: "Sr.No",
       selector: (row) => row.id,
     },
     {
-      name: 'Patient Name',
+      name: "Patient Name",
       selector: (row) => row.patient_name,
     },
     {
-      name: 'Disease',
+      name: "Disease",
       selector: (row) => row.disease,
       sortable: true,
     },
     {
-      name: 'Doctor Name',
+      name: "Doctor Name",
       selector: (row) => row.doctor_name,
     },
     {
-        name: 'Date',
-        selector: (row) => row.date,
-      },
-      {
-        name: 'Contact',
-        selector: (row) => row.contact1,
-      },
-  ]
+      name: "Date",
+      selector: (row) => row.date,
+    },
+    {
+      name: "Contact",
+      selector: (row) => row.contact1,
+    },
+  ];
 
   if (loading) {
     return (
-      <div className='m-auto d-flex align-items-center justify-content-center ' style={{width:"100vw ",height:"100vh"}}>
-        <div className="spinner-border " style={{width: "4rem", height: "4rem"}} role="status">
+      <div
+        className="m-auto d-flex align-items-center justify-content-center "
+        style={{ width: "100vw ", height: "100vh" }}
+      >
+        <div
+          className="spinner-border "
+          style={{ width: "4rem", height: "4rem" }}
+          role="status"
+        >
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
-      
     );
   } else {
     return (
@@ -155,7 +157,7 @@ export default function Hospitalhome() {
             <Navbar.Collapse id="navbarScroll">
               <Nav
                 className="mx-auto my-2 my-lg-0 text-white fs-5 mx-3 "
-                style={{ maxHeight: '100px' }}
+                style={{ maxHeight: "100px" }}
                 navbarScroll
               >
                 <Nav.Link
@@ -172,16 +174,13 @@ export default function Hospitalhome() {
                 </Nav.Link>
               </Nav>
               <Form className="d-flex me-5">
-                 
-                  <Button
-                  
+                <Button
                   className="bg-light text-dark me-lg-3 fs-5 fw-bold "
                   onClick={handleonClick}
                 >
                   Patient Record Fetch
                 </Button>
-                  
-                
+
                 <Button
                   className="bg-light text-dark me-lg-3 fs-5 fw-bold"
                   onClick={onclicklogout}
@@ -192,13 +191,12 @@ export default function Hospitalhome() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
-  
+
         <div className="container mt-3">
           <h3>Hospital Paitent Records</h3>
           <DataTable
             customStyles={customStyles}
             columns={colums}
-           
             data={indata}
             fixedHeader
             theme="solarized customStyles"
@@ -206,9 +204,6 @@ export default function Hospitalhome() {
           ></DataTable>
         </div>
       </div>
-    )
+    );
   }
-
-  
 }
-

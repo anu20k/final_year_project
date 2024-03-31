@@ -1,48 +1,48 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import { Link, useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { login } from '../api/hospitalAuth.js'
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { login } from "../api/hospitalAuth.js";
 // import { useRouter } from "next/navigation";
 
 export default function Login() {
   // const router = useRouter();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email format').required('Required'),
-    password: Yup.string().required('Required'),
-  })
+    email: Yup.string().email("Invalid email format").required("Required"),
+    password: Yup.string().required("Required"),
+  });
 
   const onSubmit = async (values) => {
-    localStorage.clear()
-    const response = await login(values.email, values.password)
-    localStorage.setItem('token', response.token)
+    localStorage.clear();
+    const response = await login(values.email, values.password);
+    localStorage.setItem("hospitalToken", response.token);
 
     if (response.token) {
-      navigate('/hospital')
-    }
-    else{
+      navigate("/hospital");
+    } else {
       alert("Invalid Credential");
     }
-  }
+  };
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     onSubmit,
     validationSchema,
-  })
+  });
 
   return (
     <div>
       <div
         className="bg-dark mt-5 d-flex justify-content-center m-auto boarder rounded-circle fs-4 py-3 px-2 align-item-center text-light "
-        style={{ width: 70, height: 70 }}>
+        style={{ width: 70, height: 70 }}
+      >
         EHL
       </div>
       <div className="d-flex  algin-item-center justify-content-center">
@@ -80,18 +80,23 @@ export default function Login() {
                 <div className="error">{formik.errors.password}</div>
               ) : null}
             </Form.Group>
-          
-            <p><Link to="/hospital/auth/forgotpass" style={{ color: 'red', textDecoration:'none' }}>
-                <strong className='text-decoration-none fw-normal' >
+
+            <p>
+              <Link
+                to="/hospital/auth/forgotpass"
+                style={{ color: "red", textDecoration: "none" }}
+              >
+                <strong className="text-decoration-none fw-normal">
                   Forget Password?
                 </strong>
-              </Link></p>
+              </Link>
+            </p>
 
             <Button variant="primary" type="submit" className="w-100 fw-bold">
               Login
             </Button>
             <p>
-              Don't have an account?{' '}
+              Don't have an account?{" "}
               <Link to="/hospital/auth/registration">
                 <strong>
                   <u>Register</u>
@@ -102,5 +107,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }
