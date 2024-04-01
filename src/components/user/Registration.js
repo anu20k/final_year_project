@@ -1,53 +1,51 @@
-import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { Link, useNavigate } from 'react-router-dom'
-import { register } from '../api/userAuth'
-import { Multiselect } from 'multiselect-react-dropdown'
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
+import { register } from "../api/userAuth";
+import { Multiselect } from "multiselect-react-dropdown";
 
 export default function UserRegistration() {
- 
-
-  const URL = "https://drive.google.com/drive/folders/1SCJXdAAAIbjRP1KXL_E06HK5rVZ4YW2N?q=sharedwith:public%20parent:1SCJXdAAAIbjRP1KXL_E06HK5rVZ4YW2N"
+  const URL =
+    "https://drive.google.com/drive/folders/1SCJXdAAAIbjRP1KXL_E06HK5rVZ4YW2N?q=sharedwith:public%20parent:1SCJXdAAAIbjRP1KXL_E06HK5rVZ4YW2N";
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required('Required'),
-    middleName: Yup.string().required('Required'),
-    lastName: Yup.string().required('Required'),
-    email: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
-    dateOfBirth: Yup.string().required('Required'),
-    PAN_Id: Yup.string().required('Required'),
-    aadharId:Yup.string().required('Required'),
-    mobile:Yup.string().required('Required'),
-    emergencyMobile:Yup.string().required('Required'),
-    localAddress:Yup.string().required('Required'),
-    city:Yup.string().required('Required'),
-    district:Yup.string().required('Required'),
-    state:Yup.string().required('Required'),
-    gender:Yup.string().required('Required'),
-    image:Yup.string().required('Required'),
-    ABHA_Id:Yup.string().required('Required'),
-    bloodGroup:Yup.string().required('Required'),
-    longLifeDisease:Yup.array().required('Required'),
-  })
+    firstName: Yup.string().required("Required"),
+    middleName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    email: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+    dateOfBirth: Yup.string().required("Required"),
+    PAN_Id: Yup.string().required("Required"),
+    aadharId: Yup.string().required("Required"),
+    mobile: Yup.string().required("Required"),
+    emergencyMobile: Yup.string().required("Required"),
+    localAddress: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
+    district: Yup.string().required("Required"),
+    state: Yup.string().required("Required"),
+    gender: Yup.string().required("Required"),
+    image: Yup.string().required("Required"),
+    ABHA_Id: Yup.string().required("Required"),
+    bloodGroup: Yup.string().required("Required"),
+    longLifeDisease: Yup.array().required("Required"),
+  });
 
- 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const customSerialize = (values, { setSubmitting }) => {
-    const serializedValues = { ...values }
-    
-    return JSON.stringify(serializedValues)
+    const serializedValues = { ...values };
+
+    return JSON.stringify(serializedValues);
     setSubmitting(false);
-  }
+  };
 
   const onSubmit = async (values) => {
-    localStorage.removeItem('token')
+    localStorage.removeItem("token");
     const response = await register(
       values.firstName,
       values.middleName,
@@ -67,57 +65,53 @@ export default function UserRegistration() {
       values.image,
       values.ABHA_Id,
       values.bloodGroup,
-      customSerialize(values),
-    )
+      customSerialize(values)
+    );
 
-    localStorage.setItem('token', response.token)
-    console.log(response.token)
-    console.log(response)
+    localStorage.setItem("token", response.token);
+    console.log(response.token);
+    console.log(response);
 
-    if (response.token) navigate('/user/auth/login')
-  }
-
-  
+    if (response.token) navigate("/user/auth/login");
+  };
 
   const formik = useFormik({
     initialValues: {
-      firstName: ' ',
-      middleName: ' ',
-      lastName: ' ',
-      email: ' ',
-      password: ' ',
-      dateOfBirth: ' ',
-      PAN_Id: ' ',
-      aadharId: ' ',
-      mobile: ' ',
-      emergencyMobile: ' ',
-      localAddress: ' ',
-      city: ' ',
-      district: ' ',
-      state: ' ',
-      gender: ' ',
-      image: ' ',
-      ABHA_I: ' ',
-      bloodGroup: ' ',
+      firstName: " ",
+      middleName: " ",
+      lastName: " ",
+      email: " ",
+      password: " ",
+      dateOfBirth: " ",
+      PAN_Id: " ",
+      aadharId: " ",
+      mobile: " ",
+      emergencyMobile: " ",
+      localAddress: " ",
+      city: " ",
+      district: " ",
+      state: " ",
+      gender: " ",
+      image: " ",
+      ABHA_I: " ",
+      bloodGroup: " ",
       longLifeDisease: [],
     },
-    
+
     onSubmit,
     validationSchema,
-    
-    
-  })
+  });
 
   // console.log('Form values', formik.values)
 
   const data = [
-    { disease: 'cardiacAttack', id: 1 },
-    { disease: 'asthma', id: 2 },
-    { disease: 'hypertension', id: 3 },
-    { disease: 'diabetes', id: 4 },
-  ]
+    { disease: "cardiacAttack", id: 1 },
+    { disease: "asthma", id: 2 },
+    { disease: "hypertension", id: 3 },
+    { disease: "diabetes", id: 4 },
+  ];
 
-  const [diseasesOptions] = useState(data)
+  const [diseasesOptions] = useState(data);
   return (
     <div>
       <div
@@ -144,8 +138,8 @@ export default function UserRegistration() {
                   placeholder="First"
                 />
                 {formik.touched.firstName && formik.errors.firstName ? (
-                <div className="error">{formik.errors.firstName}</div>
-              ) : null}
+                  <div className="error">{formik.errors.firstName}</div>
+                ) : null}
               </Form.Group>
               <Form.Group as={Col} controlId="formGridmiddleName">
                 <Form.Label className="fw-bold mb-4"></Form.Label>
@@ -158,8 +152,8 @@ export default function UserRegistration() {
                   placeholder="Second"
                 />
                 {formik.touched.middleName && formik.errors.middleName ? (
-                <div className="error">{formik.errors.middleName}</div>
-              ) : null}
+                  <div className="error">{formik.errors.middleName}</div>
+                ) : null}
               </Form.Group>
               <Form.Group as={Col} controlId="formGridlastName">
                 <Form.Label className="fw-bold mb-4"></Form.Label>
@@ -172,8 +166,8 @@ export default function UserRegistration() {
                   placeholder="last"
                 />
                 {formik.touched.lastName && formik.errors.lastName ? (
-                <div className="error">{formik.errors.lastName}</div>
-              ) : null}
+                  <div className="error">{formik.errors.lastName}</div>
+                ) : null}
               </Form.Group>
 
               <Col xs={6}>
@@ -188,8 +182,8 @@ export default function UserRegistration() {
                     placeholder="Enter Hospital Email"
                   />
                   {formik.touched.email && formik.errors.email ? (
-                <div className="error">{formik.errors.email}</div>
-              ) : null}
+                    <div className="error">{formik.errors.email}</div>
+                  ) : null}
                 </Form.Group>
               </Col>
             </Row>
@@ -221,10 +215,9 @@ export default function UserRegistration() {
                   placeholder="DOB"
                 />
                 {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
-                <div className="error">{formik.errors.dateOfBirth}</div>
-              ) : null}
+                  <div className="error">{formik.errors.dateOfBirth}</div>
+                ) : null}
               </Form.Group>
-              
             </Row>
 
             <Row className="mb-3">
@@ -238,9 +231,9 @@ export default function UserRegistration() {
                   value={formik.values.PAN_ID}
                   placeholder="Pan id"
                 />
-                 {formik.touched.PAN_Id && formik.errors.PAN_Id ? (
-                <div className="error">{formik.errors.PAN_Id}</div>
-              ) : null}
+                {formik.touched.PAN_Id && formik.errors.PAN_Id ? (
+                  <div className="error">{formik.errors.PAN_Id}</div>
+                ) : null}
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridaadharId">
@@ -271,8 +264,8 @@ export default function UserRegistration() {
                   placeholder="Contact No."
                 />
                 {formik.touched.mobile && formik.errors.mobile ? (
-                <div className="error">{formik.errors.mobile}</div>
-              ) : null}
+                  <div className="error">{formik.errors.mobile}</div>
+                ) : null}
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridemergencyMobile">
@@ -285,11 +278,11 @@ export default function UserRegistration() {
                   value={formik.values.emergencyMobile}
                   placeholder="Emergency no"
                 />
-                {formik.touched.emergencyMobile && formik.errors.emergencyMobile ? (
-                <div className="error">{formik.errors.emergencyMobile}</div>
-              ) : null}
+                {formik.touched.emergencyMobile &&
+                formik.errors.emergencyMobile ? (
+                  <div className="error">{formik.errors.emergencyMobile}</div>
+                ) : null}
               </Form.Group>
-              
             </Row>
 
             <Row className="mb-3">
@@ -304,11 +297,10 @@ export default function UserRegistration() {
                     value={formik.values.localAddress}
                     placeholder="Local Address"
                   />
-                   {formik.touched.localAddress && formik.errors.localAddress ? (
-                <div className="error">{formik.errors.localAddress}</div>
-              ) : null}
+                  {formik.touched.localAddress && formik.errors.localAddress ? (
+                    <div className="error">{formik.errors.localAddress}</div>
+                  ) : null}
                 </Form.Group>
-               
               </Col>
 
               <Form.Group as={Col} controlId="formGridcity">
@@ -321,9 +313,9 @@ export default function UserRegistration() {
                   value={formik.values.city}
                   placeholder="City"
                 />
-               {formik.touched.city && formik.errors.city ? (
-                <div className="error">{formik.errors.city}</div>
-              ) : null}
+                {formik.touched.city && formik.errors.city ? (
+                  <div className="error">{formik.errors.city}</div>
+                ) : null}
               </Form.Group>
               <Form.Group as={Col} controlId="formGriddistrict">
                 <Form.Label className="fw-bold">District*</Form.Label>
@@ -336,8 +328,8 @@ export default function UserRegistration() {
                   placeholder="district"
                 />
                 {formik.touched.district && formik.errors.district ? (
-                <div className="error">{formik.errors.district}</div>
-              ) : null}
+                  <div className="error">{formik.errors.district}</div>
+                ) : null}
               </Form.Group>
               <Form.Group as={Col} controlId="formGridstate">
                 <Form.Label className="fw-bold">state*</Form.Label>
@@ -372,13 +364,20 @@ export default function UserRegistration() {
                   <option>Others</option>
                 </Form.Select>
                 {formik.touched.gender && formik.errors.gender ? (
-                <div className="error">{formik.errors.gender}</div>
-              ) : null}
+                  <div className="error">{formik.errors.gender}</div>
+                ) : null}
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridimage">
-              <a href={URL} target="_blank" style={{ color: 'blue', textDecoration:'none' }}>Click to Create a Image URL</a><br></br>
-                
+                <a
+                  href={URL}
+                  target="_blank"
+                  style={{ color: "blue", textDecoration: "none" }}
+                >
+                  Click to Create a Image URL
+                </a>
+                <br></br>
+
                 <Form.Control
                   type="text"
                   name="image"
@@ -387,9 +386,9 @@ export default function UserRegistration() {
                   value={formik.values.image}
                   placeholder="upload Image Url"
                 />
-                 {formik.touched.image && formik.errors.image ? (
-                <div className="error">{formik.errors.image}</div>
-              ) : null}
+                {formik.touched.image && formik.errors.image ? (
+                  <div className="error">{formik.errors.image}</div>
+                ) : null}
               </Form.Group>
             </Row>
 
@@ -404,9 +403,9 @@ export default function UserRegistration() {
                   value={formik.values.ABHA_Id}
                   placeholder="abha_id"
                 />
-                {formik.touched.ABHA_Id&& formik.errors.ABHA_Id ? (
-                <div className="error">{formik.errors.ABHA_Id}</div>
-              ) : null}
+                {formik.touched.ABHA_Id && formik.errors.ABHA_Id ? (
+                  <div className="error">{formik.errors.ABHA_Id}</div>
+                ) : null}
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridbloodGroup">
@@ -419,11 +418,10 @@ export default function UserRegistration() {
                   value={formik.values.bloodGroup}
                   placeholder="Blood Group"
                 />
-                {formik.touched.bloodGroup && formik.errors.bloodGroup? (
-                <div className="error">{formik.errors.bloodGroup}</div>
-              ) : null}
+                {formik.touched.bloodGroup && formik.errors.bloodGroup ? (
+                  <div className="error">{formik.errors.bloodGroup}</div>
+                ) : null}
               </Form.Group>
-              
             </Row>
 
             <Row className="mb-5">
@@ -438,9 +436,9 @@ export default function UserRegistration() {
                     options={diseasesOptions}
                     value={formik.values.longLifeDisease}
                     onChange={(longLifeDisease) =>
-                      formik.setFieldValue('longLifeDisease', longLifeDisease)
+                      formik.setFieldValue("longLifeDisease", longLifeDisease)
                     }
-                    onBlur={formik.handleBlur('longLifeDisease')}
+                    onBlur={formik.handleBlur("longLifeDisease")}
                     displayValue="disease"
                     // onChange={formik.handleChange}
                     // onBlur={formik.handleBlur}
@@ -465,7 +463,7 @@ export default function UserRegistration() {
               </Button>
             </div>
             <p className="text-center">
-              All ready have an account?{' '}
+              All ready have an account?{" "}
               <Link to="/user/auth/login">
                 <strong>
                   <u> Login</u>
@@ -476,5 +474,5 @@ export default function UserRegistration() {
         </div>
       </div>
     </div>
-  )
+  );
 }
