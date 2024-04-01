@@ -16,7 +16,9 @@ export default function FetchByAadharId() {
   })
 
   const onSubmit= async (values) => {
+
     // localStorage.removeItem("token")
+
     // const response = await login(values.addharID, values.password);
 
     // localStorage.setItem("token", response.token);
@@ -25,6 +27,7 @@ export default function FetchByAadharId() {
     // if(response.token){
     //   navigate('/');
     // }
+    
     // else{
     //   alert("Invalid Credential");
     // }
@@ -33,6 +36,8 @@ export default function FetchByAadharId() {
 
   
   }
+
+ 
 
   const formik = useFormik({
     initialValues: {

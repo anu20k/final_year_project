@@ -18,18 +18,19 @@ export default function PatientInfo() {
   };
 
   useEffect(() => {
-    // Fetch patient info when component mounts
+    
     const fetchData = async () => {
       try {
-        const data = await patientEmergencyInfo(); // Call the asynchronous function
-        setPatientData(data.user); // Update state with fetched data
+        const data = await patientEmergencyInfo(); 
+        setPatientData(data.user); 
+        console.log(data)
         console.log(patientData);
       } catch (error) {
         console.error("Error fetching patient info:", error);
       }
     };
 
-    fetchData(); // Invoke the fetchData function
+    fetchData(); 
   }, []);
 
   return (

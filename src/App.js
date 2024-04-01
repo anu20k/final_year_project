@@ -14,8 +14,11 @@ import FetchPatientEmergencyRecord from './components/hospital/FetchPatientEmerg
 import FetchByFace from './components/hospital/FetchByFace.js';
 import FetchByFingerprint from './components/hospital/FetchByFingerprint.js'
 import FetchByAadharId from './components/hospital/FetchByAadharId.js'
-import Patientinfo from './components/hospital/PatientInfo.js'
+import Patientinfo from './components/hospital/PatientEmergencyinfo.js'
 import Otp from './components/hospital/EmailOtp.js'
+import PatientAllRecords from './components/hospital/PaitientRecords.js'
+
+
 
 import UserHome from './components/user/Home.js'
 import UserLogin from './components/user/Login';
@@ -25,6 +28,7 @@ import DoctorHome from './components/doctor/Home.js'
 import DoctorLogin from './components/doctor/Login';
 import DoctorRegistration from './components/doctor/Registration';
 import DoctorForgotpass from './components/doctor/Forgotpass.js';
+import AddPatientRecords from './components/uhr/AddPatientRecord.js';
 
 
 function App() {
@@ -45,6 +49,9 @@ function App() {
         <Route path="/hospital/auth/login" element={<HospitalLogin/>}></Route> 
         <Route path="/hospital/patientinfo" element={<Patientinfo/>}></Route>
         <Route path="/hospital/auth/otp" element={<Otp/>}></Route> 
+        <Route path="/hospital/patientAllRecords" element={<PatientAllRecords/>} />
+
+        <Route path="/UHR/addpatientrecords" element={<AddPatientRecords />} />
 
         <Route path="/user" element={<UserHome/>}></Route>
         <Route path="/user/auth/login" element={<UserLogin/>}></Route> 
@@ -53,6 +60,7 @@ function App() {
         <Route path="/doctor/auth/login" element={<DoctorLogin/>}></Route> 
         <Route path="/doctor/auth/registration" element={<DoctorRegistration/>}></Route>
         <Route path="/doctor/auth/forgotpass" element={<DoctorForgotpass />}></Route>
+
 
       </Routes>
       </Router>

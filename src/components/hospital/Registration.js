@@ -24,10 +24,7 @@ export default function HospitalRegistration() {
     speciality: Yup.string().required('Required'),
   })
 
-  // const onSubmit = (values) => {
-
-  //   console.log('Form data', values)
-  // }
+  
 
   const navigate = useNavigate();
 
@@ -74,7 +71,7 @@ export default function HospitalRegistration() {
     onSubmit,
     validationSchema,
   })
-  // console.log('Form values', formik.values)
+  console.log('Form values', formik.values)
 
   return (
     <div>

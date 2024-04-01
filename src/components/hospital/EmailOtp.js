@@ -19,7 +19,7 @@ export default function EmailOtp() {
     // console.log(response.token)
     
     // if(response.token){
-      navigate('/');
+      navigate('/hospital/patientAllRecords');
     // }
     // else{
       alert("Invalid Credential");
