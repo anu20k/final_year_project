@@ -74,6 +74,7 @@ const updateRecord = async (
 };
 
 const getRecord = async (token) => {
+
   const url = baseUrl + "get";
   const jwt = "Bearer " + token.toString();
   const requestOptions = {
@@ -83,6 +84,7 @@ const getRecord = async (token) => {
   const response = await fetch(url, requestOptions);
   const body = await response.json();
   return body;
+  
 };
 
 const filterRecord = async (start, limit, token) => {

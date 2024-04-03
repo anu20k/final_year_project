@@ -17,6 +17,7 @@ import FetchByAadharId from './components/hospital/FetchByAadharId.js'
 import Patientinfo from './components/hospital/PatientEmergencyinfo.js'
 import Otp from './components/hospital/EmailOtp.js'
 import PatientAllRecords from './components/hospital/PaitientRecords.js'
+import OtpVerification from './components/hospital/OtpVarification.js'
 
 
 
@@ -49,7 +50,10 @@ function App() {
         <Route path="/hospital/auth/login" element={<HospitalLogin/>}></Route> 
         <Route path="/hospital/patientinfo" element={<Patientinfo/>}></Route>
         <Route path="/hospital/auth/otp" element={<Otp/>}></Route> 
+        <Route path="/hospital/auth/otpverification" element={<OtpVerification/>}></Route> 
+
         <Route path="/hospital/patientAllRecords" element={<PatientAllRecords/>} />
+
 
         <Route path="/UHR/addpatientrecords" element={<AddPatientRecords />} />
 

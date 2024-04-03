@@ -9,6 +9,7 @@ import { BiLogOut } from "react-icons/bi";
 import DataTable, { createTheme } from "react-data-table-component";
 import { loggedHospital } from "../api/hospitalAuth.js";
 import { useState, useEffect } from "react";
+import {getRecord} from '../api/UHR.js'
 
 export default function PaitientRecords() {
 
@@ -39,13 +40,32 @@ export default function PaitientRecords() {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      
+        try {
+          const token = localStorage.getItem("userToken");
+          const response = await getRecord(token);
+          setindata(response.user);
+        } catch (error) {
+          console.error("Error fetching patient data:", error);
+        }
+      
+    };
+  
+    fetchData();
+  }, []); 
+
+  useEffect(() => {
     if (localStorage.getItem("hospitalToken")) {
       resSeat();
     } else {
       localStorage.clear();
       navigate("/hospital/auth/login");
     }
+   
   }, []);
+
+
 
   createTheme(
     "solarized",

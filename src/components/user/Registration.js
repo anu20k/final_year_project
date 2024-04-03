@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/userAuth";
 import { Multiselect } from "multiselect-react-dropdown";
+import moment from 'moment'
 
 export default function UserRegistration() {
   const URL =
@@ -72,7 +73,9 @@ export default function UserRegistration() {
     console.log(response.token);
     console.log(response);
 
-    if (response.token) navigate("/user/auth/login");
+    // if (response.token){
+      navigate("/user/auth/login");
+    // } 
   };
 
   const formik = useFormik({
@@ -102,7 +105,7 @@ export default function UserRegistration() {
     validationSchema,
   });
 
-  // console.log('Form values', formik.values)
+  console.log('Form values', formik.values)
 
   const data = [
     { disease: "cardiacAttack", id: 1 },
@@ -112,6 +115,7 @@ export default function UserRegistration() {
   ];
 
   const [diseasesOptions] = useState(data);
+
   return (
     <div>
       <div
@@ -211,7 +215,14 @@ export default function UserRegistration() {
                   name="dateOfBirth"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.dateOfBirth}
+                  // value={formik.values.dateOfBirth}
+                  value={
+                    formik.values.date
+                      ? moment(formik.values.dateOfBirth, "YYYY-MM-DD").format(
+                          "YYYY-MM-DD"
+                        )
+                      : ""
+                  }
                   placeholder="DOB"
                 />
                 {formik.touched.dateOfBirth && formik.errors.dateOfBirth ? (
@@ -426,7 +437,7 @@ export default function UserRegistration() {
 
             <Row className="mb-5">
               <Col xs={12}>
-                <Form.Group controlId="formGridlongLifeDisease">
+                 <Form.Group controlId="formGridlongLifeDisease">
                   <Form.Label className="fw-bold">
                     Long Term Diseases
                   </Form.Label>
@@ -450,11 +461,12 @@ export default function UserRegistration() {
                       </option>
                     ))}
                   </Multiselect>
-                </Form.Group>
-                {formik.touched.longLifeDisease &&
+                  {formik.touched.longLifeDisease &&
                 formik.errors.longLifeDisease ? (
                   <div className="error">{formik.errors.longLifeDisease}</div>
                 ) : null}
+                </Form.Group> 
+                
               </Col>
             </Row>
             <div className="d-flex justify-content-center">

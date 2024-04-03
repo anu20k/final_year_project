@@ -14,6 +14,7 @@ export default function FetchByAadharId() {
   const validationSchema = Yup.object({
     aaddharID: Yup.string().required("Required"),
   });
+  
   const resSeat = async () => {
     const response = await loggedHospital();
     console.log(response.status);

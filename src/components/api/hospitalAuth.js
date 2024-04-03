@@ -149,6 +149,7 @@ const patientEmergencyInfo = async (aadharId) => {
 const sendOTP = async (email) => {
   const url = baseUrl + "sendOTP";
   const jwt = "Bearer " + localStorage.getItem("hospitalToken");
+  
 
   const requestOptions = {
     method: "POST",
@@ -160,6 +161,7 @@ const sendOTP = async (email) => {
 
   const response = await fetch(url, requestOptions);
   const body = await response.json();
+
   return body;
 };
 
