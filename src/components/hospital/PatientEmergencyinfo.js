@@ -21,7 +21,9 @@ export default function PatientInfo() {
     const fetchData = async () => {
       if (localStorage.getItem("aadharId")) {
         try {
+
           const aadharId = localStorage.getItem("aadharId");
+          console.log(aadharId)
           const response = await patientEmergencyInfo(aadharId);
           setPatientData(response.user);
         } catch (error) {

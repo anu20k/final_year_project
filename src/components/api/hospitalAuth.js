@@ -134,8 +134,9 @@ const deleteRecord = async (id) => {
 const patientEmergencyInfo = async (aadharId) => {
   let url = baseUrl + "patientEmergencyInfo";
   url += `?aadharId=${aadharId}`;
+  console.log(aadharId=aadharId)
   const jwt = "Bearer " + localStorage.getItem("hospitalToken");
-
+ 
   const requestOptions = {
     method: "GET",
     headers: { "Content-Type": "application/json", Authorization: jwt },
