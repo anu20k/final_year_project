@@ -9,16 +9,15 @@ import { BiLogOut } from "react-icons/bi";
 import DataTable, { createTheme } from "react-data-table-component";
 import { loggedHospital } from "../api/hospitalAuth.js";
 import { useState, useEffect } from "react";
-import {getRecord} from '../api/UHR.js'
+import { getRecord } from "../api/UHR.js";
 
 export default function PaitientRecords() {
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-  const handleClick = () =>{
-    navigate("/UHR/addpatientrecords")
-  }
+  const handleClick = () => {
+    navigate("/UHR/addpatientrecords");
+  };
 
   const onclicklogout = () => {
     navigate("/");
@@ -34,26 +33,19 @@ export default function PaitientRecords() {
       navigate("/hospital/auth/login");
     } else {
       localStorage.setItem("hospital", JSON.stringify(response.hospital));
-
       setLoading(false);
+      try {
+        const token = localStorage.getItem("verifiedToken");
+        const response = await getRecord(token);
+        const newData = response.userHealthRecord.map((record, index) => {
+          return { ...record, id: index + 1 };
+        });
+        setindata(newData);
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      
-        try {
-          const token = localStorage.getItem("userToken");
-          const response = await getRecord(token);
-          setindata(response.user);
-        } catch (error) {
-          console.error("Error fetching patient data:", error);
-        }
-      
-    };
-  
-    fetchData();
-  }, []); 
 
   useEffect(() => {
     if (localStorage.getItem("hospitalToken")) {
@@ -62,10 +54,7 @@ export default function PaitientRecords() {
       localStorage.clear();
       navigate("/hospital/auth/login");
     }
-   
   }, []);
-
-
 
   createTheme(
     "solarized",
@@ -126,16 +115,16 @@ export default function PaitientRecords() {
     },
     {
       name: "Hospital Name",
-      selector: (row) => row.hospital_name,
+      selector: (row) => row.hospitalName,
     },
     {
       name: "Disease",
-      selector: (row) => row.disease,
+      selector: (row) => row.healthRecordTitle,
       sortable: true,
     },
     {
       name: "Doctor Name",
-      selector: (row) => row.doctor_name,
+      selector: (row) => row.doctorName,
     },
     {
       name: "Date",
@@ -143,7 +132,7 @@ export default function PaitientRecords() {
     },
     {
       name: "Document",
-      selector: (row) => row.document,
+      selector: (row) => row.documentLink,
     },
   ];
 
@@ -176,20 +165,15 @@ export default function PaitientRecords() {
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="navbarScroll" className="ms-auto" />
             <Navbar.Collapse id="navbarScroll">
-              
               <Form className="d-flex ms-auto">
-              <Button
-                  className="bg-light text-dark me-lg-3 fs-5 fw-bold "
-                  onClick={handleClick}
-                  
-                >
-                  Add Record 
-                </Button>
-
                 <Button
                   className="bg-light text-dark me-lg-3 fs-5 fw-bold "
-                  
+                  onClick={handleClick}
                 >
+                  Add Record
+                </Button>
+
+                <Button className="bg-light text-dark me-lg-3 fs-5 fw-bold ">
                   Patient Profile
                 </Button>
 
@@ -219,4 +203,3 @@ export default function PaitientRecords() {
     );
   }
 }
-

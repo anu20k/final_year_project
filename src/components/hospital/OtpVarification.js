@@ -1,35 +1,36 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import { Link } from 'react-router-dom'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom'
-import { verifyOTP } from '../api/hospitalAuth'
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { verifyOTP } from "../api/hospitalAuth";
 
 export default function FetchByAadharId() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const validationSchema = Yup.object({
-    OTP: Yup.string().required('Required'),
-  })
+    OTP: Yup.string().required("Required"),
+  });
 
   const onSubmit = async (values) => {
-    const email = localStorage.getItem("email")
-    
-    console.log(email)
-    const response = await verifyOTP(email, values.OTP)
+    const email = localStorage.getItem("email");
 
-    console.log(response)
-    navigate('/hospital/patientAllRecords')
-  }
+    console.log(email);
+    const response = await verifyOTP(email, values.OTP);
+
+    console.log(response);
+    localStorage.setItem("verifiedToken", response.verifiedToken);
+    navigate("/hospital/patientAllRecords");
+  };
 
   const formik = useFormik({
     initialValues: {
-      OTP: ' ',
+      OTP: "",
     },
     onSubmit,
     validationSchema,
-  })
+  });
 
   return (
     <div>
@@ -67,5 +68,5 @@ export default function FetchByAadharId() {
         </div>
       </div>
     </div>
-  )
+  );
 }

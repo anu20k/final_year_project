@@ -32,7 +32,6 @@ export default function Hospitalhome() {
       navigate("/hospital/auth/login");
     } else {
       localStorage.setItem("hospital", JSON.stringify(response.hospital));
-
       setLoading(false);
     }
   };
