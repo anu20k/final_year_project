@@ -1,36 +1,37 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { Link } from 'react-router-dom'
-import {register} from '../api/hospitalAuth'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { register } from "../api/hospitalAuth";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function HospitalRegistration() {
   const validationSchema = Yup.object({
-    name: Yup.string().required('Required'),
-    email: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
-    registrationNo: Yup.string().required('Required'),
-    contactNo_1: Yup.string().required('Required'),
-    contactNo_2: Yup.string().required('Required'),
-    localAddress: Yup.string().required('Required'),
-    city: Yup.string().required('Required'),
-    district: Yup.string().required('Required'),
-    state: Yup.string().required('Required'),
-    speciality: Yup.string().required('Required'),
-  })
+    name: Yup.string().required("Required"),
+    email: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+    registrationNo: Yup.string().required("Required"),
+    contactNo_1: Yup.string().required("Required"),
+    contactNo_2: Yup.string().required("Required"),
+    localAddress: Yup.string().required("Required"),
+    city: Yup.string().required("Required"),
+    district: Yup.string().required("Required"),
+    state: Yup.string().required("Required"),
+    speciality: Yup.array().required("Required"),
+  });
 
-  
-
+  const [speciality, setSpeciality] = useState([]);
   const navigate = useNavigate();
 
-  const onSubmit= async (values) => {
-    localStorage.removeItem("token")
-    const response = await register( values.name,
+  const onSubmit = async (values) => {
+    localStorage.removeItem("token");
+    const response = await register(
+      values.name,
       values.email,
       values.password,
       values.registrationNo,
@@ -40,38 +41,35 @@ export default function HospitalRegistration() {
       values.city,
       values.district,
       values.state,
-      values.speciality);
+      values.speciality
+    );
 
     localStorage.setItem("token", response.token);
-    console.log(response.token)
+    console.log(response.token);
     console.log(response);
-    
-    if(response.token)
 
-    navigate('/hospital/auth/login');
-  
-  }
-
+    if (response.token) navigate("/hospital/auth/login");
+  };
 
   const formik = useFormik({
     initialValues: {
-      name: ' ',
-      email: '',
-      password: '',
-      registrationNo: '',
-      contactNo_1: '',
-      contactNo_2: '',
-      localAddress: '',
-      city: '',
-      district: '',
-      state: '',
-      speciality:'',
+      name: " ",
+      email: "",
+      password: "",
+      registrationNo: "",
+      contactNo_1: "",
+      contactNo_2: "",
+      localAddress: "",
+      city: "",
+      district: "",
+      state: "",
+      speciality: speciality,
     },
-    
+
     onSubmit,
     validationSchema,
-  })
-  console.log('Form values', formik.values)
+  });
+  console.log("Form values", formik.values);
 
   return (
     <div>
@@ -97,7 +95,6 @@ export default function HospitalRegistration() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.name}
-                  
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <div className="error">{formik.errors.name}</div>
@@ -136,7 +133,9 @@ export default function HospitalRegistration() {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridregistrationNo">
-                <Form.Label className="fw-bold">Hospital registrationNo*</Form.Label>
+                <Form.Label className="fw-bold">
+                  Hospital registrationNo*
+                </Form.Label>
                 <Form.Control
                   type="text"
                   name="registrationNo"
@@ -185,7 +184,9 @@ export default function HospitalRegistration() {
             <Row className="mb-3">
               <Col xs={6}>
                 <Form.Group controlId="formGridadress">
-                  <Form.Label className="fw-bold">Local localAddress*</Form.Label>
+                  <Form.Label className="fw-bold">
+                    Local localAddress*
+                  </Form.Label>
                   <Form.Control
                     type="adress"
                     name="localAddress"
@@ -256,7 +257,7 @@ export default function HospitalRegistration() {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.speciality}
-                    Multival 
+                    Multival
                   >
                     <option>Cardiology</option>
                     <option>Gynacology</option>
@@ -274,16 +275,16 @@ export default function HospitalRegistration() {
               </Button>
             </div>
             <p className="text-center">
-              All ready have an account?{' '}
+              All ready have an account?{" "}
               <Link to="/hospital/auth/login">
-              <strong>
-                <u> Login</u>
-              </strong>
+                <strong>
+                  <u> Login</u>
+                </strong>
               </Link>
             </p>
           </Form>
         </div>
       </div>
     </div>
-  )
+  );
 }

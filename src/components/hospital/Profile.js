@@ -6,15 +6,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
-import DataTable, { createTheme } from "react-data-table-component";
 import { loggedHospital } from "../api/hospitalAuth.js";
 import { useState, useEffect } from "react";
-import { getRecord } from "../api/UHR.js";
 
 export default function Hospitalhome() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
+  const [data, setData] = useState({});
   const handleonClick = () => {
     navigate("/hospital/fetchPatientEmergencyRecord");
   };
@@ -23,8 +21,6 @@ export default function Hospitalhome() {
     localStorage.removeItem("hospitalToken");
     navigate("/");
   };
-
-  const [indata, setindata] = React.useState([]);
 
   const resSeat = async () => {
     const response = await loggedHospital();
@@ -35,17 +31,7 @@ export default function Hospitalhome() {
     } else {
       localStorage.setItem("hospital", JSON.stringify(response.hospital));
       setLoading(false);
-      try {
-        const token = localStorage.getItem("hospitalToken");
-        const response = await getRecord(token);
-        const newData = response.userHealthRecord.map((record, index) => {
-          return { ...record, id: index + 1 };
-        });
-        console.log(newData);
-        setindata(newData);
-      } catch (error) {
-        console.error("Error fetching patient data:", error);
-      }
+      setData(response.hospital);
     }
   };
 
@@ -57,86 +43,6 @@ export default function Hospitalhome() {
       navigate("/hospital/auth/login");
     }
   }, []);
-
-  createTheme(
-    "solarized",
-    {
-      text: {
-        primary: "#111111",
-        secondary: "#2aa198",
-        fontSize: "32",
-      },
-      background: {
-        default: "#EFF5F5",
-      },
-      context: {
-        background: "#cb4b16",
-        text: "#FFFFFF",
-      },
-      divider: {
-        default: "#073642",
-      },
-
-      action: {
-        button: "rgba(0,0,0,.54)",
-        hover: "rgba(0,0,0,.08)",
-        disabled: "rgba(0,0,0,.12)",
-      },
-    },
-    "light"
-  );
-
-  const customStyles = {
-    // rows: {
-    //   style: {
-    //     minHeight: '72px', // override the row height
-    //   }
-    // },
-
-    headCells: {
-      style: {
-        paddingLeft: "8px", // override the cell padding for head cells
-        paddingRight: "8px",
-        fontSize: 15,
-        fontWeight: "bold",
-      },
-    },
-    cells: {
-      style: {
-        paddingLeft: "8px", // override the cell padding for data cells
-        paddingRight: "8px",
-        fontSize: 15,
-      },
-    },
-  };
-
-  const colums = [
-    {
-      name: "Sr.No",
-      selector: (row) => row.id,
-    },
-    {
-      name: "Patient Name",
-      selector: (row) => row.userName,
-    },
-    {
-      name: "Disease",
-      selector: (row) => row.disease,
-      sortable: true,
-    },
-    {
-      name: "Doctor Name",
-      selector: (row) => row.doctorName,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-    },
-    {
-      name: "Document",
-      selector: (row) => row.documentLink,
-    },
-  ];
 
   if (loading) {
     return (
@@ -172,22 +78,16 @@ export default function Hospitalhome() {
                 style={{ maxHeight: "100px" }}
                 navbarScroll
               >
-                <Nav.Link
-                  href="/hospital"
-                  className="text-white mx-lg-3 text-decoration-underline"
-                >
+                <Nav.Link href="/hospital" className="text-white mx-lg-3">
                   Home
                 </Nav.Link>
                 <Nav.Link
-                  href="../hospital/profile"
-                  className="text-white mx-lg-3 "
+                  href="../ hospital/profile"
+                  className="text-white mx-lg-3  text-decoration-underline"
                 >
                   Hospital Profile
                 </Nav.Link>
-                <Nav.Link
-                  href="../hospital/doctorInfo"
-                  className="text-white mx-lg-3 "
-                >
+                <Nav.Link href="#" className="text-white mx-lg-3 ">
                   Doctor Info
                 </Nav.Link>
               </Nav>
@@ -211,15 +111,51 @@ export default function Hospitalhome() {
         </Navbar>
 
         <div className="container mt-3">
-          <h3>Hospital Patient Records</h3>
-          <DataTable
-            customStyles={customStyles}
-            columns={colums}
-            data={indata}
-            fixedHeader
-            theme="solarized customStyles"
-            pagination
-          ></DataTable>
+          <h3 className="mt-1 mb-5">Hospital Profile</h3>
+          <table className="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{data.name}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>{data.email}</td>
+              </tr>
+              <tr>
+                <th>Registration Number</th>
+                <td>{data.registrationNo}</td>
+              </tr>
+              <tr>
+                <th>Contact Number 1</th>
+                <td>{data.contactNo_1}</td>
+              </tr>
+              <tr>
+                <th>Contact Number 2</th>
+                <td>{data.contactNo_2}</td>
+              </tr>
+              <tr>
+                <th>Local Address</th>
+                <td>{data.localAddress}</td>
+              </tr>
+              <tr>
+                <th>City</th>
+                <td>{data.city}</td>
+              </tr>
+              <tr>
+                <th>District</th>
+                <td>{data.district}</td>
+              </tr>
+              <tr>
+                <th>State</th>
+                <td>{data.state}</td>
+              </tr>
+              <tr>
+                <th>Speciality</th>
+                <td>{data.speciality}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );
